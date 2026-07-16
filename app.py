@@ -8,9 +8,7 @@ from fastapi import FastAPI, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-# ---------------------------------------------------------------------------
-# Конфигурация на сайтовете (пренесена 1:1 от Tkinter версията)
-# ---------------------------------------------------------------------------
+# Sites confiuration (1:1 from thinker version)
 
 PC_SITES = [
     {
@@ -83,13 +81,11 @@ HEADERS = {
 }
 
 REQUEST_TIMEOUT = 12.0
-RETRIES = 2          # брой повторни опита след първия неуспешен
-RETRY_DELAY = 1.5    # секунди между опитите
-CACHE_TTL = 600      # 10 минути кеш — колеги, търсещи същото, получават мигновен отговор
+RETRIES = 2          # num repated tries after the first unsucessfull one 
+RETRY_DELAY = 1.5    # seconds between tries 
+CACHE_TTL = 600      # 10 minutes cache — collegues, searcing for the same, get the imidiate result 
 
-# ---------------------------------------------------------------------------
-# Прост in-memory кеш { (category, query): (timestamp, data) }
-# ---------------------------------------------------------------------------
+# Simple in-memory cache { (category, query): (timestamp, data) }
 
 _cache: dict[tuple[str, str], tuple[float, dict]] = {}
 
@@ -104,38 +100,86 @@ def cache_get(key: tuple[str, str]):
 
 def cache_set(key: tuple[str, str], data: dict):
     _cache[key] = (time.time(), data)
-    # лека защита срещу неограничен растеж
+    # little security from unbounded growth 
     if len(_cache) > 200:
         oldest = min(_cache, key=lambda k: _cache[k][0])
         _cache.pop(oldest, None)
 
 
-# ---------------------------------------------------------------------------
-# Скрейпинг
-# ---------------------------------------------------------------------------
+# Scraping
 
 def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
-    """Твоята логика от Tkinter версията: селектор + проверка, че всички
-    думи от заявката присъстват в title/текста на линка."""
     soup = BeautifulSoup(html, "html.parser")
     items = []
     seen = set()
+    
+    # specific filters for prices in different sites 
+    site_price_tags = {
+        "Siaifon": [".c-product-grid__product-price", ".price"],
+        "Cellphone BG": [".price-new", ".price"],
+        "Alpha Mobile": [".price-new", ".price"],
+        "GagoGSM": [".price-new", ".price"],
+        "PhoneZona": [".price-new", ".price"],
+        "MasterClub": [".ty-price-num", ".price"],
+        "OLX": ["[data-testid='ad-price']", ".css-19346ff", ".price"],
+        "Bazar": ["span.price", ".price"]
+    }
+    
     for link in soup.select(site["selector"]):
         href = link.get("href")
         if not href:
             continue
+            
         title = (link.get("title") or "").lower()
         link_text = link.get_text(strip=True)
         haystack = title + " " + link_text.lower()
+        
         if not all(term in haystack for term in search_terms):
             continue
+            
         full_url = urljoin(site["url"], href)
         if full_url in seen:
             continue
         seen.add(full_url)
-        items.append({"title": link_text or title, "url": full_url})
-    return items
+        
+        clean_title = " ".join(link_text.split()) or title
+        detected_price = ""
+        
+        # Getting targetet selectors for prices for the approporiate site
+        price_tags = site_price_tags.get(site["name"], [".price", ".price-new"])
+        
+        # Dynamic climbing upon the parents for finding A PRICE
+        current_parent = link
+        # Climbs up 4 leves upon the DOM tree
+        for _ in range(4):
+            current_parent = current_parent.parent
+            if not current_parent or current_parent.name == "[document]":
+                break
+                
+            found_price_text = ""
+            for tag in price_tags:
+                price_elem = current_parent.select_one(tag)
+                if price_elem:
+                    # Removing spaces and new rows 
+                    raw_text = price_elem.get_text(strip=True)
+                    found_price_text = " ".join(raw_text.split())
+                    if found_price_text:
+                        break
+            
+            # If valid price is found in this parent, we save it and stops searching 
+            if found_price_text:
+                detected_price = found_price_text
+                break
 
+        # Building title with price
+        if detected_price:
+            display_title = f"{clean_title} — {detected_price}"
+        else:
+            display_title = clean_title
+            
+        items.append({"title": display_title, "url": full_url})
+        
+    return items
 
 async def fetch_with_retry(client: httpx.AsyncClient, url: str) -> httpx.Response | None:
     for attempt in range(RETRIES + 1):
@@ -164,7 +208,7 @@ async def search_site(client: httpx.AsyncClient, site: dict, query: str,
                 "error": "Няма отговор от сайта", "seconds": elapsed}
 
     try:
-        # BeautifulSoup е синхронен → в thread pool, за да не блокира event loop-а
+        # BeautifulSoup is synchronous → in thread pool, to no block the event loop
         items = await asyncio.to_thread(parse_site, resp.text, site, search_terms)
     except Exception as e:  # повреден HTML не бива да събаря цялото търсене
         return {"site": site["name"], "ok": False, "items": [],
@@ -184,9 +228,7 @@ async def search_all(category: str, query: str) -> dict:
     return {"query": query, "category": category, "results": results}
 
 
-# ---------------------------------------------------------------------------
-# FastAPI
-# ---------------------------------------------------------------------------
+# FastAPI 
 
 app = FastAPI(title="AKS Price Checker")
 
