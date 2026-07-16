@@ -1,0 +1,105 @@
+  :root {
+    --bg: #0e1120;
+    --panel: #161a2e;
+    --panel-2: #1c2138;
+    --border: #262c48;
+    --text: #e8eaf2;
+    --muted: #8d93ad;
+    --accent: #8b7bff;
+    --accent-dim: #5c4fd6;
+    --ok: #46d19a;
+    --err: #ff6b7a;
+    --mono: "JetBrains Mono", "Consolas", monospace;
+    --sans: "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 26px; }
+  header h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: .3px; }
+  header h1 span { color: var(--accent); }
+  header .sub { color: var(--muted); font-size: .85rem; }
+
+  /* --- търсачка --- */
+  .searchbar {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px;
+  }
+  .searchbar input[type=text] {
+    flex: 1; min-width: 220px;
+    background: var(--bg); color: var(--text);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 11px 14px; font-size: 1rem; outline: none;
+  }
+  .searchbar input[type=text]:focus { border-color: var(--accent-dim); }
+  .seg { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .seg button {
+    background: var(--bg); color: var(--muted); border: none;
+    padding: 11px 18px; font-size: .95rem; cursor: pointer;
+  }
+  .seg button.active { background: var(--accent-dim); color: #fff; }
+  .go {
+    background: var(--accent); color: #14102e; font-weight: 700;
+    border: none; border-radius: 8px; padding: 11px 26px;
+    font-size: 1rem; cursor: pointer;
+  }
+  .go:hover { filter: brightness(1.08); }
+  .go:disabled { opacity: .55; cursor: wait; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  /* --- статус лента --- */
+  .status {
+    margin: 18px 2px 6px; color: var(--muted);
+    font-family: var(--mono); font-size: .8rem; min-height: 1.2em;
+  }
+  .status b { color: var(--accent); font-weight: 600; }
+
+  /* --- резултати --- */
+  .site-card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; margin-top: 14px; overflow: hidden;
+  }
+  .site-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; background: var(--panel-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .dot.ok  { background: var(--ok); }
+  .dot.err { background: var(--err); }
+  .site-head h2 { font-size: .98rem; font-weight: 600; flex: 1; }
+  .meta { font-family: var(--mono); font-size: .74rem; color: var(--muted); }
+  .count {
+    font-family: var(--mono); font-size: .74rem;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2px 10px; color: var(--accent);
+  }
+  .site-body { padding: 6px 0; }
+  .item {
+    display: block; padding: 9px 16px; color: var(--text);
+    text-decoration: none; font-size: .92rem; line-height: 1.35;
+    border-left: 2px solid transparent;
+  }
+  .item:hover { background: var(--panel-2); border-left-color: var(--accent); }
+  .item .u { display: block; color: var(--muted); font-family: var(--mono); font-size: .72rem; margin-top: 2px; word-break: break-all; }
+  .empty, .error { padding: 12px 16px; font-size: .88rem; color: var(--muted); }
+  .error { color: var(--err); }
+
+  .hint { margin-top: 40px; text-align: center; color: var(--muted); font-size: .85rem; }
+
+  @media (max-width: 560px) {
+    .searchbar { flex-direction: column; }
+    .seg { justify-content: stretch; }
+    .seg button { flex: 1; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .site-card { animation: rise .25s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+  }

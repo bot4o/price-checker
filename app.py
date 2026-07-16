@@ -1,16 +1,3 @@
-"""
-AKS Price Checker — уеб версия
-FastAPI бакенд с паралелни async заявки към партньорските сайтове.
-
-Стартиране (локално):
-    pip install -r requirements.txt
-    uvicorn app:app --host 0.0.0.0 --port 8090
-
-Или с Docker:
-    docker build -t aks-price-checker .
-    docker run -d -p 8090:8090 --name price-checker aks-price-checker
-"""
-
 import asyncio
 import time
 from urllib.parse import urljoin, quote_plus
