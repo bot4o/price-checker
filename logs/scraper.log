@@ -1,0 +1,21 @@
+2026-07-18 14:00:30.95 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-18 14:01:59.61 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-18 14:02:20.05 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13'
+2026-07-18 14:02:21.27 | ERROR   | PARSER   | [GagoGSM] HTML parsing crashed: 'Logger' object has no attribute 'warnings'
+2026-07-18 14:02:22.30 | ERROR   | PARSER   | [Cellphone BG] HTML parsing crashed: 'Logger' object has no attribute 'warnings'
+2026-07-18 14:02:22.42 | ERROR   | PARSER   | [Smenime] HTML parsing crashed: 'Logger' object has no attribute 'warnings'
+2026-07-18 14:02:22.65 | ERROR   | PARSER   | [Alpha Mobile] HTML parsing crashed: 'Logger' object has no attribute 'warnings'
+2026-07-18 14:02:23.26 | ERROR   | PARSER   | [Siaifon] HTML parsing crashed: 'Logger' object has no attribute 'warnings'
+2026-07-18 14:02:24.12 | ERROR   | PARSER   | [PhoneZona] HTML parsing crashed: 'Logger' object has no attribute 'warnings'
+2026-07-18 14:02:26.95 | SUCCESS | API      | SEARCH COMPLETED -> Found 0 items across all sites in 6.9s
+2026-07-18 14:03:17.67 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-18 14:03:21.48 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-18 14:03:33.21 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13'
+2026-07-18 14:03:37.92 | WARNING | PARSER   | [Smenime] Exracter 4 items in 31ms
+2026-07-18 14:03:38.28 | WARNING | PARSER   | [GagoGSM] 0 items found in 222ms! (CSS selector 'a.prod-info' broken or empty query)
+2026-07-18 14:03:38.32 | WARNING | PARSER   | [Cellphone BG] Exracter 19 items in 347ms
+2026-07-18 14:03:38.46 | WARNING | PARSER   | [Alpha Mobile] 0 items found in 69ms! (CSS selector 'a.prod-info' broken or empty query)
+2026-07-18 14:03:38.91 | WARNING | PARSER   | [PhoneZona] 0 items found in 288ms! (CSS selector 'a.prod-info' broken or empty query)
+2026-07-18 14:03:39.65 | WARNING | PARSER   | [Siaifon] Exracter 60 items in 450ms
+2026-07-18 14:03:40.63 | SUCCESS | API      | SEARCH COMPLETED -> Found 83 items across all sites in 7.42s
+2026-07-18 14:04:28.71 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!

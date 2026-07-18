@@ -1,4 +1,5 @@
 import asyncio
+import sys
 import time
 from urllib.parse import urljoin, quote_plus
 
@@ -7,9 +8,29 @@ from bs4 import BeautifulSoup
 from fastapi import FastAPI, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from loguru import logger
+
+# Logging
+logger.remove() 
+logger.add(
+    sys.stderr,
+    format="<green>{time:HH:mm:ss.SS}</green> | <level>{level: <7}</level> | <cyan>{extra[component]: <8}</cyan>  | <level>{message}</level>",
+    colorize=True
+)
+
+# File output logs/scraper.log
+logger.add(
+    "logs/scraper.log",
+    rotation="10MB",
+    retention="7 days",
+    format="{time:YYYY-MM-DD HH:mm:ss.SS} | {level: <7} | {extra[component]: <8} | {message}", 
+    level="INFO",
+    enqueue=True
+)
+
+logger = logger.bind(components="SYSTEM")
 
 # Sites confiuration (1:1 from thinker version)
-
 PC_SITES = [
     {
         "name": "LaptopRemont",
@@ -86,9 +107,7 @@ RETRY_DELAY = 1.5    # seconds between tries
 CACHE_TTL = 600      # 10 minutes cache — collegues, searcing for the same, get the imidiate result 
 
 # Simple in-memory cache { (category, query): (timestamp, data) }
-
 _cache: dict[tuple[str, str], tuple[float, dict]] = {}
-
 
 def cache_get(key: tuple[str, str]):
     entry = _cache.get(key)
@@ -97,7 +116,6 @@ def cache_get(key: tuple[str, str]):
     _cache.pop(key, None)
     return None
 
-
 def cache_set(key: tuple[str, str], data: dict):
     _cache[key] = (time.time(), data)
     # little security from unbounded growth 
@@ -105,10 +123,9 @@ def cache_set(key: tuple[str, str], data: dict):
         oldest = min(_cache, key=lambda k: _cache[k][0])
         _cache.pop(oldest, None)
 
-
-# Scraping
-
+# Scraping logic
 def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
+    start_time = time.perf_counter()
     soup = BeautifulSoup(html, "html.parser")
     items = []
     seen = set()
@@ -150,7 +167,8 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
         
         # Dynamic climbing upon the parents for finding A PRICE
         current_parent = link
-        # Climbs up 4 leves upon the DOM tree
+        
+        # Climbs up 4 levels upon the DOM tree
         for _ in range(4):
             current_parent = current_parent.parent
             if not current_parent or current_parent.name == "[document]":
@@ -178,18 +196,44 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
             display_title = clean_title
             
         items.append({"title": display_title, "url": full_url})
+    elapsed_ms = round((time.perf_counter() - start_time) * 1000)
+
+    # Parsing speed and anomaly warnings
+    parser_log = logger.bind(component="PARSER")
+    if not items:
+        parser_log.warning(f"[{site['name']}] 0 items found in {elapsed_ms}ms! (CSS selector '{site['selector']}' broken or empty query)")
+    else:
+        parser_log.warning(f"[{site['name']}] Exracter {len(items)} items in {elapsed_ms}ms")
         
     return items
 
-async def fetch_with_retry(client: httpx.AsyncClient, url: str) -> httpx.Response | None:
-    for attempt in range(RETRIES + 1):
+async def fetch_with_retry(client: httpx.AsyncClient, url: str, site_name: str) -> httpx.Response | None:
+    net_log = logger.bind(components="NETWORK")
+
+    for attempt in range(1, RETRIES + 2):
         try:
+            start_time=time.perf_counter()
             resp = await client.get(url, timeout=REQUEST_TIMEOUT)
+            elapsed_ms = round((time.perf_counter() - start_time) * 1000)
+
             resp.raise_for_status()
+
+            # Network speed tracking
+            net_log.info(f"[{site_name}] GET -> Status 200 OK ({elapsed_ms}ms)")
             return resp
-        except httpx.HTTPError:
-            if attempt < RETRIES:
+
+        except httpx.HTTPError as e:
+            status = e.response.status_code
+            # Anti-scrapign or server error blocks
+            net_log.warning(f"[{site_name}] HTTP {status} on attempt {attempt}/{RETRIES + 1}. Retrying in {RETRY_DELAY}s...")
+            if attempt <= RETRIES:
                 await asyncio.sleep(RETRY_DELAY)
+        except (httpx.RequestError, httpx.TimeoutException) as e:
+            net_log.warning(f"[{site_name}] Connection error ({type(e).__name__}] on attempt {attempt}/{RETRIES + 1}. Retrying...")
+            if attempt <= RETRIES:
+                await asyncio.sleep(RETRY_DELAY)
+
+    net_log.error(f"[{site_name}] FAILED to fetch after {RETRIES + 1} attempts!")
     return None
 
 
@@ -200,7 +244,7 @@ async def search_site(client: httpx.AsyncClient, site: dict, query: str,
     if "extra" in site:
         search_url += site["extra"]
 
-    resp = await fetch_with_retry(client, search_url)
+    resp = await fetch_with_retry(client, search_url, site["name"])
     elapsed = round(time.perf_counter() - started, 2)
 
     if resp is None:
@@ -208,11 +252,12 @@ async def search_site(client: httpx.AsyncClient, site: dict, query: str,
                 "error": "Няма отговор от сайта", "seconds": elapsed}
 
     try:
-        # BeautifulSoup is synchronous → in thread pool, to no block the event loop
         items = await asyncio.to_thread(parse_site, resp.text, site, search_terms)
-    except Exception as e:  # повреден HTML не бива да събаря цялото търсене
+    except Exception as e:  
+        # Crash catching
+        logger.bind(component="PARSER").error(f"[{site['name']}] HTML parsing crashed: {str(e)}")
         return {"site": site["name"], "ok": False, "items": [],
-                "error": f"Грешка при парсване: {e}", "seconds": elapsed}
+                "error": f"Error in parsing: {e}", "seconds": elapsed}
 
     elapsed = round(time.perf_counter() - started, 2)
     return {"site": site["name"], "ok": True, "items": items,
@@ -222,33 +267,49 @@ async def search_site(client: httpx.AsyncClient, site: dict, query: str,
 async def search_all(category: str, query: str) -> dict:
     sites = CATEGORIES[category]
     search_terms = query.lower().split()
+
+    logger.bind(components="SCRAPER").info(f"Launching concurent search across {len(sites)} '{category}' sites for: '{query}'")
+
     async with httpx.AsyncClient(headers=HEADERS, follow_redirects=True) as client:
         tasks = [search_site(client, s, query, search_terms) for s in sites]
         results = await asyncio.gather(*tasks)
+
     return {"query": query, "category": category, "results": results}
 
 
 # FastAPI 
-
 app = FastAPI(title="AKS Price Checker")
 
+@app.on_event("startup")
+async def startup_event():
+    logger.bind(component="SYSTEM").success("AKS Price Checker server booted up and ready for requests!")
 
 @app.get("/api/search")
 async def api_search(
     q: str = Query(..., min_length=2, description="Модел / продукт за търсене"),
     category: str = Query("phone", pattern="^(phone|pc)$"),
 ):
+    api_log = logger.bind(component="API")
     q = q.strip()
     key = (category, q.lower())
 
+    #Incomming API tracking & Cache hits
     cached = cache_get(key)
     if cached:
+        api_log.success(f"CACHE HIT -> Return instant results for '{q}' ({category})")
         return {**cached, "cached": True}
 
+    api_log.info(f"SEARCH REQUEST -> Category: '{category}', Query: '{q}'")
     started = time.perf_counter()
+
     data = await search_all(category, q)
-    data["total_seconds"] = round(time.perf_counter() - started, 2)
+
+    total_seconds = round(time.perf_counter() - started, 2)
+    data["total_seconds"] = total_seconds
     data["cached"] = False
+
+    total_items = sum(len(r["items"]) for r in data ["results"] if r["ok"])
+    api_log.success(f"SEARCH COMPLETED -> Found {total_items} items across all sites in {total_seconds}s")
 
     cache_set(key, data)
     return data
