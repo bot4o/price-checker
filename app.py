@@ -203,7 +203,7 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
     if not items:
         parser_log.warning(f"[{site['name']}] 0 items found in {elapsed_ms}ms! (CSS selector '{site['selector']}' broken or empty query)")
     else:
-        parser_log.warning(f"[{site['name']}] Exracter {len(items)} items in {elapsed_ms}ms")
+        parser_log.info(f"[{site['name']}] Exracted {len(items)} items in {elapsed_ms}ms")
         
     return items
 
