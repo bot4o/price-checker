@@ -1,6 +1,7 @@
 import asyncio
 import sys
 import time
+import re
 from urllib.parse import urljoin, quote_plus
 
 import httpx
@@ -9,6 +10,44 @@ from fastapi import FastAPI, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from loguru import logger
+
+async def fetch_masterclub_html(client: httpx.AsyncClient, query: str) -> str | None:
+    """Visits MasterClub home to grab session cookies & security_hash, then searches."""
+    home_url = "https://masterclub.info/"
+    net_log = logger.bind(component="NETWORK")
+    
+    try:
+        net_log.info("[MasterClub] Fetching homepage for fresh session & security_hash...")
+        home_resp = await client.get(home_url, timeout=10)
+        
+        # 1. Try extracting cleanly via BeautifulSoup (Standard CS-Cart behavior)
+        soup = BeautifulSoup(home_resp.text, "html.parser")
+        hash_input = soup.find("input", {"name": "security_hash"})
+        sec_hash = hash_input.get("value") if hash_input else None
+        
+        # 2. Fallback to flexible Regex if it's hidden inside a JavaScript tag
+        if not sec_hash:
+            match = re.search(r'security_hash["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20,64})["\']?', home_resp.text)
+            if match:
+                sec_hash = match.group(1)
+                
+        if sec_hash:
+            net_log.info(f"[MasterClub] Extracted security_hash: {sec_hash}")
+            search_url = (
+                f"https://masterclub.info/index.php?match=all&subcats=Y&pcode_from_q=Y"
+                f"&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y"
+                f"&q={quote_plus(query)}&dispatch=products.search&security_hash={sec_hash}"
+            )
+        else:
+            net_log.warning("[MasterClub] No security_hash found! Executing direct search fallback...")
+            search_url = f"https://masterclub.info/index.php?dispatch=products.search&q={quote_plus(query)}"
+        
+        search_resp = await client.get(search_url, timeout=10)
+        return search_resp.text
+
+    except Exception as e:
+        net_log.error(f"[MasterClub] Two-step fetch failed: {str(e)}")
+        return None
 
 # Logging
 logger.remove() 
@@ -28,7 +67,7 @@ logger.add(
     enqueue=True
 )
 
-logger = logger.bind(components="SYSTEM")
+logger = logger.bind(component="SYSTEM")
 
 # Sites confiuration (1:1 from thinker version)
 PC_SITES = [
@@ -50,39 +89,40 @@ PC_SITES = [
 ]
 
 PHONE_SITES = [
+    #OpenCart
     {
         "name": "Cellphone BG",
         "url": "https://cellphone-bg.com/search?search=",
-        "selector": "a.prod-info",
+        "selector": ".product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info",
     },
+    #OpenCart
     {
         "name": "Alpha Mobile",
         "url": "https://www.alphamobile.eu/index.php?route=product/search&search=",
-        "selector": "a.prod-info",
+        "selector": ".product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info",
     },
+    #OpenCart
     {
         "name": "GagoGSM",
         "url": "https://gagogsm.com/index.php?route=product/search&search=",
-        "selector": "a.prod-info",
+        "selector": ".product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info",
     },
     {
         "name": "Smenime",
         "url": "https://smenime.com/%D1%82%D1%8A%D1%80%D1%81%D0%B5%D0%BD%D0%B5?searchword=",
         "selector": "a[title]",
     },
+    #OpenCart
     {
         "name": "PhoneZona",
         "url": "https://phonezona.com/index.php?route=product/search&search=",
-        "selector": "a.prod-info",
+        "selector": ".product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info",
     },
     {
         "name": "MasterClub",
-        "url": (
-            "https://masterclub.info/?match=all&subcats=Y&pcode_from_q=Y"
-            "&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y&q="
-        ),
+        "url": "https://masterclub.info/", # Base URL; custom fetcher builds the full query
         "selector": "a.product-title",
-        "extra": "&dispatch=products.search&security_hash=f1a874bef7fdd99c17064010466ec1ad",
+        "custom_fetch": fetch_masterclub_html  # <-- Attach the function directly!
     },
     {
         "name": "Siaifon",
@@ -96,7 +136,7 @@ CATEGORIES = {"phone": PHONE_SITES, "pc": PC_SITES}
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+            "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
     ),
     "Accept-Language": "bg,en;q=0.8",
 }
@@ -129,7 +169,7 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
     soup = BeautifulSoup(html, "html.parser")
     items = []
     seen = set()
-    
+
     # specific filters for prices in different sites 
     site_price_tags = {
         "Siaifon": [".c-product-grid__product-price", ".price"],
@@ -141,39 +181,39 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
         "OLX": ["[data-testid='ad-price']", ".css-19346ff", ".price"],
         "Bazar": ["span.price", ".price"]
     }
-    
+
     for link in soup.select(site["selector"]):
         href = link.get("href")
         if not href:
             continue
-            
+
         title = (link.get("title") or "").lower()
         link_text = link.get_text(strip=True)
         haystack = title + " " + link_text.lower()
-        
+
         if not all(term in haystack for term in search_terms):
             continue
-            
+
         full_url = urljoin(site["url"], href)
         if full_url in seen:
             continue
         seen.add(full_url)
-        
+
         clean_title = " ".join(link_text.split()) or title
         detected_price = ""
-        
+
         # Getting targetet selectors for prices for the approporiate site
         price_tags = site_price_tags.get(site["name"], [".price", ".price-new"])
-        
+
         # Dynamic climbing upon the parents for finding A PRICE
         current_parent = link
-        
+
         # Climbs up 4 levels upon the DOM tree
         for _ in range(4):
             current_parent = current_parent.parent
             if not current_parent or current_parent.name == "[document]":
                 break
-                
+
             found_price_text = ""
             for tag in price_tags:
                 price_elem = current_parent.select_one(tag)
@@ -183,7 +223,7 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
                     found_price_text = " ".join(raw_text.split())
                     if found_price_text:
                         break
-            
+
             # If valid price is found in this parent, we save it and stops searching 
             if found_price_text:
                 detected_price = found_price_text
@@ -194,7 +234,7 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
             display_title = f"{clean_title} — {detected_price}"
         else:
             display_title = clean_title
-            
+
         items.append({"title": display_title, "url": full_url})
     elapsed_ms = round((time.perf_counter() - start_time) * 1000)
 
@@ -204,65 +244,70 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
         parser_log.warning(f"[{site['name']}] 0 items found in {elapsed_ms}ms! (CSS selector '{site['selector']}' broken or empty query)")
     else:
         parser_log.info(f"[{site['name']}] Exracted {len(items)} items in {elapsed_ms}ms")
-        
+
     return items
 
 async def fetch_with_retry(client: httpx.AsyncClient, url: str, site_name: str) -> httpx.Response | None:
-    net_log = logger.bind(components="NETWORK")
+    net_log = logger.bind(component="NETWORK")
 
     for attempt in range(1, RETRIES + 2):
         try:
-            start_time=time.perf_counter()
+            start_time = time.perf_counter()
             resp = await client.get(url, timeout=REQUEST_TIMEOUT)
             elapsed_ms = round((time.perf_counter() - start_time) * 1000)
 
             resp.raise_for_status()
 
-            # Network speed tracking
             net_log.info(f"[{site_name}] GET -> Status 200 OK ({elapsed_ms}ms)")
             return resp
 
-        except httpx.HTTPError as e:
+            # Catch HTTP code errors (403, 404, 500) - these have a response attached
+        except httpx.HTTPStatusError as e:
             status = e.response.status_code
-            # Anti-scrapign or server error blocks
             net_log.warning(f"[{site_name}] HTTP {status} on attempt {attempt}/{RETRIES + 1}. Retrying in {RETRY_DELAY}s...")
             if attempt <= RETRIES:
                 await asyncio.sleep(RETRY_DELAY)
-        except (httpx.RequestError, httpx.TimeoutException) as e:
-            net_log.warning(f"[{site_name}] Connection error ({type(e).__name__}] on attempt {attempt}/{RETRIES + 1}. Retrying...")
+
+            # Catch connection/timeout errors - these DO NOT have a response attached
+        except httpx.RequestError as e:
+            net_log.warning(f"[{site_name}] Connection error ({type(e).__name__}) on attempt {attempt}/{RETRIES + 1}. Retrying...")
             if attempt <= RETRIES:
                 await asyncio.sleep(RETRY_DELAY)
 
     net_log.error(f"[{site_name}] FAILED to fetch after {RETRIES + 1} attempts!")
     return None
 
-
-async def search_site(client: httpx.AsyncClient, site: dict, query: str,
-                      search_terms: list[str]) -> dict:
+async def search_site(client: httpx.AsyncClient, site: dict, query: str, search_terms: list[str]) -> dict:
     started = time.perf_counter()
-    search_url = site["url"] + quote_plus(query)
-    if "extra" in site:
-        search_url += site["extra"]
-
-    resp = await fetch_with_retry(client, search_url, site["name"])
-    elapsed = round(time.perf_counter() - started, 2)
-
-    if resp is None:
-        return {"site": site["name"], "ok": False, "items": [],
-                "error": "Няма отговор от сайта", "seconds": elapsed}
 
     try:
-        items = await asyncio.to_thread(parse_site, resp.text, site, search_terms)
-    except Exception as e:  
-        # Crash catching
-        logger.bind(component="PARSER").error(f"[{site['name']}] HTML parsing crashed: {str(e)}")
-        return {"site": site["name"], "ok": False, "items": [],
-                "error": f"Error in parsing: {e}", "seconds": elapsed}
+        # Route to custom fetcher if it exists (MasterClub)
+        if "custom_fetch" in site:
+            logger.debug(f"API | [{site['name']}] Using custom two-step fetcher...")
+            html = await site["custom_fetch"](client, query) # Pass exactly 2 args
+            if not html:
+                raise Exception("Custom fetcher returned empty/None")
+        else:
+            # Standard URL building and fetch
+            search_url = site["url"] + quote_plus(query)
+            if "extra" in site:
+                search_url += site["extra"]
+
+            resp = await fetch_with_retry(client, search_url, site["name"])
+            if not resp:
+                raise Exception("No response from fetch_with_retry")
+            html = resp.text
+
+        # Parsing remains untouched
+        items = await asyncio.to_thread(parse_site, html, site, search_terms)
+
+    except Exception as e:
+        logger.bind(component="PARSER").error(f"[{site['name']}] Fetch/Parse failed: {str(e)}")
+        elapsed = round(time.perf_counter() - started, 2)
+        return {"site": site["name"], "ok": False, "items": [], "error": str(e), "seconds": elapsed}
 
     elapsed = round(time.perf_counter() - started, 2)
-    return {"site": site["name"], "ok": True, "items": items,
-            "error": None, "seconds": elapsed}
-
+    return {"site": site["name"], "ok": True, "items": items, "error": None, "seconds": elapsed}
 
 async def search_all(category: str, query: str) -> dict:
     sites = CATEGORIES[category]
@@ -314,7 +359,7 @@ async def api_search(
     cache_set(key, data)
     return data
 
-
+@app.get("/api/search")
 @app.get("/")
 async def index():
     return FileResponse("static/index.html")
