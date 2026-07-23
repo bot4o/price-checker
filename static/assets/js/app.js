@@ -70,7 +70,14 @@ function render(data) {
                 a.href = it.url;
                 a.target = "_blank";
                 a.rel = "noopener";
-                a.innerHTML = esc(it.title) + `<span class="u">${esc(it.url)}</span>`;
+                
+                // --- ADDED: Extract and format the scraped price ---
+                const priceHtml = it.price && it.price !== "N/A" 
+                    ? `<span class="price">${esc(it.price)}</span>` 
+                    : '';
+                
+                // --- UPDATED: Insert price right after the title ---
+                a.innerHTML = `${esc(it.title)} ${priceHtml}<span class="u">${esc(it.url)}</span>`;
                 body.appendChild(a);
             }
         }

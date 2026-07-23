@@ -531,3 +531,182 @@
 2026-07-22 14:43:31.73 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 808ms
 2026-07-22 14:43:31.74 | SUCCESS | API      | SEARCH COMPLETED -> Found 176 items across all sites in 4.33s
 2026-07-22 14:50:23.75 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 15:25:51.67 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 15:25:56.68 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 15:25:57.39 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 15:26:00.08 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 15:31:19.38 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 15:38:51.99 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 15:39:05.88 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 16:50:49.57 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 16:50:54.17 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 16:55:52.59 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 16:55:54.06 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 22:54:02.45 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 22:54:03.19 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-22 22:54:06.89 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 10:52:31.13 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 10:52:32.19 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 11:12:05.84 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:39:00.51 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:39:01.32 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:39:08.17 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:39:19.51 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:39:33.34 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:39:34.34 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:44:36.40 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:44:40.48 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:44:41.56 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:44:53.57 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:45:03.97 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:45:17.81 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13'
+2026-07-23 16:45:17.81 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'IPhone 13'
+2026-07-23 16:45:18.63 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (764ms)
+2026-07-23 16:45:18.83 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 201ms
+2026-07-23 16:45:18.83 | ERROR   | PARSER   | [MasterClub] Fetch/Parse failed: Custom fetcher returned empty/None
+2026-07-23 16:45:19.01 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (1140ms)
+2026-07-23 16:45:19.02 | INFO    | PARSER   | [Smenime] Exracted 4 items in 15ms
+2026-07-23 16:45:19.46 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1598ms)
+2026-07-23 16:45:19.53 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (1668ms)
+2026-07-23 16:45:19.64 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 176ms
+2026-07-23 16:45:19.83 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 274ms
+2026-07-23 16:45:19.84 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1968ms)
+2026-07-23 16:45:20.32 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 478ms
+2026-07-23 16:45:21.28 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (3410ms)
+2026-07-23 16:45:21.99 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 709ms
+2026-07-23 16:45:21.99 | SUCCESS | API      | SEARCH COMPLETED -> Found 176 items across all sites in 4.17s
+2026-07-23 16:47:30.35 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:47:31.06 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:47:37.89 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:47:55.86 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13'
+2026-07-23 16:47:55.86 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'Iphone 13'
+2026-07-23 16:47:56.84 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (940ms)
+2026-07-23 16:47:57.15 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 306ms
+2026-07-23 16:47:57.32 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1412ms)
+2026-07-23 16:47:57.46 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 142ms
+2026-07-23 16:47:58.02 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (2113ms)
+2026-07-23 16:47:58.20 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 180ms
+2026-07-23 16:48:01.40 | ERROR   | PARSER   | [MasterClub] Fetch/Parse failed: Custom fetcher returned empty/None
+2026-07-23 16:48:01.53 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (5625ms)
+2026-07-23 16:48:01.55 | INFO    | PARSER   | [Smenime] Exracted 4 items in 15ms
+2026-07-23 16:48:02.35 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (6448ms)
+2026-07-23 16:48:02.77 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (6869ms)
+2026-07-23 16:48:03.15 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 795ms
+2026-07-23 16:48:04.11 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 1325ms
+2026-07-23 16:48:04.12 | SUCCESS | API      | SEARCH COMPLETED -> Found 176 items across all sites in 8.25s
+2026-07-23 16:51:31.20 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:51:33.26 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:51:35.29 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:51:51.71 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:51:52.62 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:51:55.85 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:51:56.60 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:53:05.82 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:53:10.73 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:53:11.67 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:53:12.43 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:53:22.29 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:53:23.03 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:53:35.54 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13'
+2026-07-23 16:53:35.54 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'Iphone 13'
+2026-07-23 16:53:35.61 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-23 16:53:36.31 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (713ms)
+2026-07-23 16:53:36.52 | WARNING | NETWORK  | [MasterClub] No security_hash found! Executing direct search fallback...
+2026-07-23 16:53:36.57 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 257ms
+2026-07-23 16:53:36.58 | WARNING | PARSER   | [MasterClub] 0 items found in 1ms! (CSS selector 'a.product-title' broken or empty query)
+2026-07-23 16:53:36.63 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (1022ms)
+2026-07-23 16:53:36.66 | INFO    | PARSER   | [Smenime] Exracted 4 items in 35ms
+2026-07-23 16:53:36.79 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (1180ms)
+2026-07-23 16:53:36.96 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 176ms
+2026-07-23 16:53:38.02 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (2411ms)
+2026-07-23 16:53:38.58 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 557ms
+2026-07-23 16:53:38.87 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (3269ms)
+2026-07-23 16:53:39.10 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 220ms
+2026-07-23 16:53:39.67 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (4061ms)
+2026-07-23 16:53:40.52 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 849ms
+2026-07-23 16:53:40.52 | SUCCESS | API      | SEARCH COMPLETED -> Found 176 items across all sites in 4.98s
+2026-07-23 16:53:45.68 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone'
+2026-07-23 16:53:45.69 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'Iphone'
+2026-07-23 16:53:45.70 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-23 16:53:46.87 | WARNING | NETWORK  | [MasterClub] No security_hash found! Executing direct search fallback...
+2026-07-23 16:53:46.90 | WARNING | PARSER   | [MasterClub] 0 items found in 1ms! (CSS selector 'a.product-title' broken or empty query)
+2026-07-23 16:53:47.23 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (1534ms)
+2026-07-23 16:53:47.27 | INFO    | PARSER   | [Smenime] Exracted 35 items in 42ms
+2026-07-23 16:53:48.40 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (2706ms)
+2026-07-23 16:53:48.91 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (3211ms)
+2026-07-23 16:53:48.95 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 542ms
+2026-07-23 16:53:49.09 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (3399ms)
+2026-07-23 16:53:49.19 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 276ms
+2026-07-23 16:53:49.28 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 170ms
+2026-07-23 16:53:50.06 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (4366ms)
+2026-07-23 16:53:50.77 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 705ms
+2026-07-23 16:53:51.67 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (5973ms)
+2026-07-23 16:53:51.90 | INFO    | PARSER   | [Cellphone BG] Exracted 20 items in 234ms
+2026-07-23 16:53:51.90 | SUCCESS | API      | SEARCH COMPLETED -> Found 208 items across all sites in 6.22s
+2026-07-23 16:56:08.66 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:56:09.56 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:58:37.10 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 16:58:53.15 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 17:01:52.00 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 17:01:56.52 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 17:02:16.28 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13'
+2026-07-23 17:02:16.28 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'Iphone 13'
+2026-07-23 17:02:16.33 | INFO    | NETWORK  | [MasterClub] Fetching homepage to establish session cookie...
+2026-07-23 17:02:16.70 | WARNING | NETWORK  | [MasterClub] Search returned status 403
+2026-07-23 17:02:16.70 | ERROR   | PARSER   | [MasterClub] Fetch/Parse failed: Custom fetcher returned empty/None
+2026-07-23 17:02:16.83 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (501ms)
+2026-07-23 17:02:16.88 | INFO    | PARSER   | [Smenime] Exracted 4 items in 49ms
+2026-07-23 17:02:17.00 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (670ms)
+2026-07-23 17:02:17.22 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 224ms
+2026-07-23 17:02:17.78 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (1455ms)
+2026-07-23 17:02:17.96 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1636ms)
+2026-07-23 17:02:18.09 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 307ms
+2026-07-23 17:02:18.17 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1840ms)
+2026-07-23 17:02:18.45 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 255ms
+2026-07-23 17:02:18.63 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 663ms
+2026-07-23 17:02:20.07 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (3746ms)
+2026-07-23 17:02:20.77 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 691ms
+2026-07-23 17:02:20.77 | SUCCESS | API      | SEARCH COMPLETED -> Found 176 items across all sites in 4.49s
+2026-07-23 17:02:35.03 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 17:03:07.00 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 17:03:13.45 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13'
+2026-07-23 17:03:13.45 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'Iphone 13'
+2026-07-23 17:03:13.50 | INFO    | NETWORK  | [MasterClub] Fetching homepage to establish session cookie...
+2026-07-23 17:03:14.25 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (751ms)
+2026-07-23 17:03:14.61 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 359ms
+2026-07-23 17:03:14.85 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (1352ms)
+2026-07-23 17:03:15.06 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 201ms
+2026-07-23 17:03:15.06 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1557ms)
+2026-07-23 17:03:15.18 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 124ms
+2026-07-23 17:03:16.08 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (2576ms)
+2026-07-23 17:03:16.09 | INFO    | PARSER   | [Smenime] Exracted 4 items in 14ms
+2026-07-23 17:03:16.09 | WARNING | NETWORK  | [MasterClub] Search returned status 403
+2026-07-23 17:03:16.09 | ERROR   | PARSER   | [MasterClub] Fetch/Parse failed: Custom fetcher returned empty/None
+2026-07-23 17:03:16.94 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (3442ms)
+2026-07-23 17:03:17.11 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (3610ms)
+2026-07-23 17:03:18.10 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 970ms
+2026-07-23 17:03:18.16 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 1216ms
+2026-07-23 17:03:18.16 | SUCCESS | API      | SEARCH COMPLETED -> Found 176 items across all sites in 4.71s
+2026-07-23 17:08:04.49 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 17:08:05.32 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 17:08:06.01 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 17:08:12.57 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 17:08:13.43 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-23 17:08:17.62 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13'
+2026-07-23 17:08:17.62 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'Iphone 13'
+2026-07-23 17:08:17.66 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-23 17:08:18.20 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (544ms)
+2026-07-23 17:08:18.35 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (694ms)
+2026-07-23 17:08:18.43 | INFO    | PARSER   | [Smenime] Exracted 4 items in 74ms
+2026-07-23 17:08:18.48 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 273ms
+2026-07-23 17:08:18.60 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (945ms)
+2026-07-23 17:08:18.78 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 177ms
+2026-07-23 17:08:19.03 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1375ms)
+2026-07-23 17:08:19.16 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 121ms
+2026-07-23 17:08:19.63 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1966ms)
+2026-07-23 17:08:20.09 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 457ms
+2026-07-23 17:08:20.39 | INFO    | PARSER   | [MasterClub] Exracted 20 items in 162ms
+2026-07-23 17:08:20.92 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (3263ms)
+2026-07-23 17:08:22.01 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 1084ms
+2026-07-23 17:08:22.01 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 4.39s
+2026-07-23 20:25:22.61 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!

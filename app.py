@@ -10,45 +10,138 @@ from fastapi import FastAPI, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from loguru import logger
+from typing import List, Dict, Any
 
-async def fetch_masterclub_html(client: httpx.AsyncClient, query: str) -> str | None:
-    """Visits MasterClub home to grab session cookies & security_hash, then searches."""
-    home_url = "https://masterclub.info/"
-    net_log = logger.bind(component="NETWORK")
-    
+async def scrape_masterclub(client: httpx.AsyncClient, query: str) -> List[Dict[str, Any]]:
+    """
+    Scrapes product search results from MasterClub.info.
+    1. Establishes session cookies via homepage request.
+    2. Sends search request with CS-Cart parameters.
+    3. Parses titles, links, and prices using 'a.product-title'.
+    """
+    results = []
+    base_url = "https://masterclub.info/"
+
     try:
-        net_log.info("[MasterClub] Fetching homepage for fresh session & security_hash...")
-        home_resp = await client.get(home_url, timeout=10)
-        
-        # 1. Try extracting cleanly via BeautifulSoup (Standard CS-Cart behavior)
-        soup = BeautifulSoup(home_resp.text, "html.parser")
-        hash_input = soup.find("input", {"name": "security_hash"})
-        sec_hash = hash_input.get("value") if hash_input else None
-        
-        # 2. Fallback to flexible Regex if it's hidden inside a JavaScript tag
-        if not sec_hash:
-            match = re.search(r'security_hash["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20,64})["\']?', home_resp.text)
-            if match:
-                sec_hash = match.group(1)
-                
-        if sec_hash:
-            net_log.info(f"[MasterClub] Extracted security_hash: {sec_hash}")
-            search_url = (
-                f"https://masterclub.info/index.php?match=all&subcats=Y&pcode_from_q=Y"
+        # Step 1: Establish session cookie by visiting the homepage
+        await client.get(base_url, timeout=10.0)
+
+        # Step 2: Construct search URL with CS-Cart flags
+        encoded_query = quote_plus(query)
+        search_url = (
+            f"{base_url}?match=all&subcats=Y&pcode_from_q=Y"
                 f"&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y"
-                f"&q={quote_plus(query)}&dispatch=products.search&security_hash={sec_hash}"
-            )
-        else:
-            net_log.warning("[MasterClub] No security_hash found! Executing direct search fallback...")
-            search_url = f"https://masterclub.info/index.php?dispatch=products.search&q={quote_plus(query)}"
-        
-        search_resp = await client.get(search_url, timeout=10)
-        return search_resp.text
+                f"&q={encoded_query}&dispatch=products.search"
+        )
+
+        # Step 3: Fetch search results
+        response = await client.get(search_url, timeout=10.0)
+        if response.status_code != 200:
+            return results
+
+        # Step 4: Parse response HTML
+        soup = BeautifulSoup(response.text, "html.parser")
+        product_links = soup.select("a.product-title")
+        search_terms = query.lower().split()
+
+        for link in product_links:
+            title = link.get_text(strip=True)
+            href = link.get("href")
+
+            # Type safety check for Pyright/Pylance
+            if not href or not isinstance(href, str):
+                continue
+
+            # Secondary filter: Ensure all search terms appear in the title
+            if not all(term in title.lower() for term in search_terms):
+                continue
+
+            # Ensure complete URL
+            full_url = urljoin(base_url, href)
+
+            # Find price tag inside product card wrapper
+            price = "N/A"
+            parent = link.find_parent(class_=re.compile(r"ty-column|ty-grid-list__item"))
+            if parent:
+                price_elem = parent.select_one(".ty-price-num, .price, .ty-price")
+                if price_elem:
+                    price = price_elem.get_text(strip=True)
+
+            results.append({
+                "site": "MasterClub",
+                "title": title,
+                "url": full_url,
+                "price": price,
+            })
 
     except Exception as e:
-        net_log.error(f"[MasterClub] Two-step fetch failed: {str(e)}")
+        # Keeps MasterClub failures isolated from failing other scrapers
+        print(f"[MasterClub] Scraping error: {e}")
+
+    return results
+
+MASTERCLUB_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Accept-Language": "bg,en-US;q=0.7,en;q=0.3",
+}
+
+async def fetch_masterclub_html(client: httpx.AsyncClient, query: str) -> str | None:
+    """Извлича сесийна бисквитка, security_hash и изпълнява търсенето в MasterClub."""
+    net_log = logger.bind(component="NETWORK")
+    home_url = "https://masterclub.info/"
+    
+    try:
+        # Стъпка 1: Зареждане на началната страница за сесийна бисквитка и хедъри
+        net_log.info("[MasterClub] Fetching homepage for fresh session & security_hash...")
+        home_resp = await client.get(home_url, headers=MASTERCLUB_HEADERS, timeout=8.0)
+        
+        if home_resp.status_code != 200:
+            net_log.warning(f"[MasterClub] Homepage returned status {home_resp.status_code}")
+            return None
+
+        # Стъпка 2: Извличане на security_hash от HTML / JS
+        sec_hash = ""
+        soup = BeautifulSoup(home_resp.text, "html.parser")
+        
+        # Проверка за скрити input полета
+        hash_input = soup.find("input", {"name": "security_hash"})
+        if hash_input and hash_input.get("value"):
+            sec_hash = str(hash_input.get("value"))
+        else:
+            # Fallback regex за JS променливи
+            match = re.search(r'security_hash[^\w]*([a-f0-9]{32})', home_resp.text, re.I)
+            if match:
+                sec_hash = match.group(1)
+
+        # Стъпка 3: Сглобяване на търсещия URL адрес
+        encoded_query = quote_plus(query)
+        search_url = (
+            f"https://masterclub.info/?match=all&subcats=Y&pcode_from_q=Y"
+            f"&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y"
+            f"&q={encoded_query}&dispatch=products.search"
+        )
+        if sec_hash:
+            search_url += f"&security_hash={sec_hash}"
+
+        # Добавяме Referer хедър, за да симулираме пренасочване от началната страница
+        search_headers = {**MASTERCLUB_HEADERS, "Referer": home_url}
+        
+        # Стъпка 4: Изпълнение на търсенето
+        search_resp = await client.get(search_url, headers=search_headers, timeout=8.0)
+        
+        if search_resp.status_code == 200 and search_resp.text:
+            return search_resp.text
+            
+        net_log.warning(f"[MasterClub] Search returned status {search_resp.status_code}")
         return None
 
+    except Exception as e:
+        net_log.error(f"[MasterClub] Fetch failed: {type(e).__name__} -> {str(e)}")
+        return None
 # Logging
 logger.remove() 
 logger.add(
@@ -187,7 +280,7 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
         if not href:
             continue
 
-        title = (link.get("title") or "").lower()
+        title = str(link.get("title") or "").lower()
         link_text = link.get_text(strip=True)
         haystack = title + " " + link_text.lower()
 
@@ -360,6 +453,22 @@ async def api_search(
     return data
 
 @app.get("/api/search")
+async def search_prices(query: str):
+    async with httpx.AsyncClient(headers=HEADERS, follow_redirects=True) as client:
+        # Run all site scrapers concurrently
+        tasks = [
+            scrape_masterclub(client, query),
+        ]
+
+        results_nested = await asyncio.gather(*tasks, return_exceptions=True)
+
+        # Flatten list of lists and ignore failed tasks
+        all_products = []
+        for res in results_nested:
+            if isinstance(res, list):
+                all_products.extend(res)
+
+        return {"query": query, "count": len(all_products), "results": all_products}
 @app.get("/")
 async def index():
     return FileResponse("static/index.html")
