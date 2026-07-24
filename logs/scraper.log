@@ -710,3 +710,164 @@
 2026-07-23 17:08:22.01 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 1084ms
 2026-07-23 17:08:22.01 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 4.39s
 2026-07-23 20:25:22.61 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-24 12:54:46.88 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-24 12:56:42.73 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-24 12:57:28.91 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-24 12:59:59.87 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13'
+2026-07-24 12:59:59.87 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'IPhone 13'
+2026-07-24 12:59:59.92 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-24 13:00:00.63 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (712ms)
+2026-07-24 13:00:00.67 | INFO    | PARSER   | [Smenime] Exracted 4 items in 33ms
+2026-07-24 13:00:01.12 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (1202ms)
+2026-07-24 13:00:01.34 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 213ms
+2026-07-24 13:00:01.66 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1731ms)
+2026-07-24 13:00:01.77 | INFO    | PARSER   | [MasterClub] Exracted 20 items in 275ms
+2026-07-24 13:00:02.75 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 1081ms
+2026-07-24 13:00:03.99 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (4070ms)
+2026-07-24 13:00:04.71 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 718ms
+2026-07-24 13:00:05.23 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (5318ms)
+2026-07-24 13:00:05.45 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 220ms
+2026-07-24 13:00:05.60 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (5681ms)
+2026-07-24 13:00:05.72 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 119ms
+2026-07-24 13:00:05.72 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 5.85s
+2026-07-24 13:00:08.63 | SUCCESS | API      | CACHE HIT -> Return instant results for 'IPhone 13' (phone)
+2026-07-24 13:00:15.99 | SUCCESS | API      | CACHE HIT -> Return instant results for 'IPhone 13' (phone)
+2026-07-24 13:01:33.70 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'ThinkPad'
+2026-07-24 13:01:33.71 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'ThinkPad'
+2026-07-24 13:01:34.30 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (588ms)
+2026-07-24 13:01:34.46 | INFO    | PARSER   | [Bazar] Exracted 68 items in 160ms
+2026-07-24 13:01:34.66 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (947ms)
+2026-07-24 13:01:34.71 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 53ms
+2026-07-24 13:01:35.91 | INFO    | NETWORK  | [OLX] GET -> Status 200 OK (2196ms)
+2026-07-24 13:01:36.01 | WARNING | PARSER   | [OLX] 0 items found in 101ms! (CSS selector 'a.css-z3gu2d' broken or empty query)
+2026-07-24 13:01:36.02 | SUCCESS | API      | SEARCH COMPLETED -> Found 78 items across all sites in 2.31s
+2026-07-24 13:02:05.98 | SUCCESS | API      | CACHE HIT -> Return instant results for 'Iphone 13' (phone)
+2026-07-24 13:04:38.26 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13 Case'
+2026-07-24 13:04:38.26 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'Iphone 13 Case'
+2026-07-24 13:04:38.27 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-24 13:04:38.74 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (468ms)
+2026-07-24 13:04:38.77 | WARNING | PARSER   | [Smenime] 0 items found in 26ms! (CSS selector 'a[title]' broken or empty query)
+2026-07-24 13:04:38.98 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (712ms)
+2026-07-24 13:04:39.22 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (944ms)
+2026-07-24 13:04:39.40 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 419ms
+2026-07-24 13:04:39.52 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 285ms
+2026-07-24 13:04:39.55 | WARNING | PARSER   | [MasterClub] 0 items found in 71ms! (CSS selector 'a.product-title' broken or empty query)
+2026-07-24 13:04:39.61 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1330ms)
+2026-07-24 13:04:40.02 | INFO    | PARSER   | [Siaifon] Exracted 37 items in 410ms
+2026-07-24 13:04:41.42 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (3145ms)
+2026-07-24 13:04:41.49 | INFO    | PARSER   | [Alpha Mobile] Exracted 17 items in 73ms
+2026-07-24 13:04:41.52 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (3243ms)
+2026-07-24 13:04:42.17 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 655ms
+2026-07-24 13:04:42.17 | SUCCESS | API      | SEARCH COMPLETED -> Found 116 items across all sites in 3.91s
+2026-07-24 13:04:56.75 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13 Display'
+2026-07-24 13:04:56.75 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'Iphone 13 Display'
+2026-07-24 13:04:56.77 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-24 13:04:57.16 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (397ms)
+2026-07-24 13:04:57.17 | WARNING | PARSER   | [Smenime] 0 items found in 10ms! (CSS selector 'a[title]' broken or empty query)
+2026-07-24 13:04:57.29 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (531ms)
+2026-07-24 13:04:57.32 | WARNING | PARSER   | [Cellphone BG] 0 items found in 21ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:04:57.39 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (622ms)
+2026-07-24 13:04:57.51 | WARNING | PARSER   | [GagoGSM] 0 items found in 125ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:04:57.65 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (887ms)
+2026-07-24 13:04:57.70 | WARNING | PARSER   | [MasterClub] 0 items found in 80ms! (CSS selector 'a.product-title' broken or empty query)
+2026-07-24 13:04:58.17 | WARNING | PARSER   | [Siaifon] 0 items found in 512ms! (CSS selector 'a.c-product-grid__product-title-link' broken or empty query)
+2026-07-24 13:04:58.19 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1430ms)
+2026-07-24 13:04:58.23 | WARNING | PARSER   | [Alpha Mobile] 0 items found in 36ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:04:58.33 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (1568ms)
+2026-07-24 13:04:58.96 | WARNING | PARSER   | [PhoneZona] 0 items found in 626ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:04:58.96 | SUCCESS | API      | SEARCH COMPLETED -> Found 0 items across all sites in 2.21s
+2026-07-24 13:05:45.34 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13 Дисплей'
+2026-07-24 13:05:45.34 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'Iphone 13 Дисплей'
+2026-07-24 13:05:45.36 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-24 13:05:45.80 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (447ms)
+2026-07-24 13:05:45.81 | WARNING | PARSER   | [Smenime] 0 items found in 9ms! (CSS selector 'a[title]' broken or empty query)
+2026-07-24 13:05:45.91 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (559ms)
+2026-07-24 13:05:46.22 | INFO    | PARSER   | [Cellphone BG] Exracted 18 items in 314ms
+2026-07-24 13:05:46.23 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (875ms)
+2026-07-24 13:05:46.36 | INFO    | PARSER   | [GagoGSM] Exracted 5 items in 129ms
+2026-07-24 13:05:46.39 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1037ms)
+2026-07-24 13:05:46.74 | INFO    | PARSER   | [Siaifon] Exracted 2 items in 344ms
+2026-07-24 13:05:46.83 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1484ms)
+2026-07-24 13:05:46.98 | INFO    | PARSER   | [MasterClub] Exracted 17 items in 239ms
+2026-07-24 13:05:47.04 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 196ms
+2026-07-24 13:05:47.04 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (1689ms)
+2026-07-24 13:05:47.65 | WARNING | PARSER   | [PhoneZona] 0 items found in 604ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:05:47.65 | SUCCESS | API      | SEARCH COMPLETED -> Found 92 items across all sites in 2.31s
+2026-07-24 13:06:55.27 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13 Дисплей OLED'
+2026-07-24 13:06:55.27 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'Iphone 13 Дисплей OLED'
+2026-07-24 13:06:55.28 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-24 13:06:55.88 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (606ms)
+2026-07-24 13:06:56.21 | INFO    | PARSER   | [Cellphone BG] Exracted 14 items in 328ms
+2026-07-24 13:06:56.22 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (938ms)
+2026-07-24 13:06:56.23 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (954ms)
+2026-07-24 13:06:56.27 | WARNING | PARSER   | [Smenime] 0 items found in 28ms! (CSS selector 'a[title]' broken or empty query)
+2026-07-24 13:06:56.37 | WARNING | PARSER   | [GagoGSM] 0 items found in 151ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:06:56.37 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1093ms)
+2026-07-24 13:06:56.38 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1094ms)
+2026-07-24 13:06:56.50 | INFO    | PARSER   | [Alpha Mobile] Exracted 18 items in 132ms
+2026-07-24 13:06:57.11 | WARNING | PARSER   | [Siaifon] 0 items found in 714ms! (CSS selector 'a.c-product-grid__product-title-link' broken or empty query)
+2026-07-24 13:06:57.26 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (1977ms)
+2026-07-24 13:06:57.32 | INFO    | PARSER   | [MasterClub] Exracted 17 items in 228ms
+2026-07-24 13:06:57.90 | WARNING | PARSER   | [PhoneZona] 0 items found in 626ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:06:57.90 | SUCCESS | API      | SEARCH COMPLETED -> Found 49 items across all sites in 2.63s
+2026-07-24 13:07:33.17 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13 Дисплей Оригинален'
+2026-07-24 13:07:33.17 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'Iphone 13 Дисплей Оригинален'
+2026-07-24 13:07:33.18 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-24 13:07:33.59 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (412ms)
+2026-07-24 13:07:33.61 | WARNING | PARSER   | [Smenime] 0 items found in 19ms! (CSS selector 'a[title]' broken or empty query)
+2026-07-24 13:07:33.80 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (617ms)
+2026-07-24 13:07:33.82 | WARNING | PARSER   | [Cellphone BG] 0 items found in 24ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:07:34.01 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (826ms)
+2026-07-24 13:07:34.44 | WARNING | PARSER   | [MasterClub] 0 items found in 129ms! (CSS selector 'a.product-title' broken or empty query)
+2026-07-24 13:07:34.45 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1273ms)
+2026-07-24 13:07:34.61 | INFO    | PARSER   | [Alpha Mobile] Exracted 8 items in 153ms
+2026-07-24 13:07:34.62 | INFO    | PARSER   | [Siaifon] Exracted 2 items in 612ms
+2026-07-24 13:07:34.63 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (1444ms)
+2026-07-24 13:07:34.79 | WARNING | PARSER   | [GagoGSM] 0 items found in 167ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:07:34.88 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (1694ms)
+2026-07-24 13:07:35.58 | WARNING | PARSER   | [PhoneZona] 0 items found in 699ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:07:35.58 | SUCCESS | API      | SEARCH COMPLETED -> Found 10 items across all sites in 2.41s
+2026-07-24 13:10:06.62 | SUCCESS | API      | CACHE HIT -> Return instant results for 'ThinkPad' (pc)
+2026-07-24 13:10:49.20 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'ThinkPad'
+2026-07-24 13:10:49.20 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'ThinkPad'
+2026-07-24 13:10:49.22 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-24 13:10:49.81 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (597ms)
+2026-07-24 13:10:49.82 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (602ms)
+2026-07-24 13:10:49.84 | WARNING | PARSER   | [Smenime] 0 items found in 19ms! (CSS selector 'a[title]' broken or empty query)
+2026-07-24 13:10:49.86 | WARNING | PARSER   | [Cellphone BG] 0 items found in 43ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:10:50.09 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (865ms)
+2026-07-24 13:10:50.13 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (910ms)
+2026-07-24 13:10:50.46 | WARNING | PARSER   | [GagoGSM] 0 items found in 330ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:10:50.86 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1647ms)
+2026-07-24 13:10:50.96 | INFO    | PARSER   | [MasterClub] Exracted 2 items in 167ms
+2026-07-24 13:10:51.03 | WARNING | PARSER   | [Alpha Mobile] 0 items found in 153ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:10:51.11 | WARNING | PARSER   | [Siaifon] 0 items found in 1026ms! (CSS selector 'a.c-product-grid__product-title-link' broken or empty query)
+2026-07-24 13:10:51.84 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (2620ms)
+2026-07-24 13:10:52.47 | WARNING | PARSER   | [PhoneZona] 0 items found in 632ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-24 13:10:52.47 | SUCCESS | API      | SEARCH COMPLETED -> Found 2 items across all sites in 3.28s
+2026-07-24 13:11:07.43 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'IPhone'
+2026-07-24 13:11:07.43 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'IPhone'
+2026-07-24 13:11:08.14 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (694ms)
+2026-07-24 13:11:08.33 | INFO    | PARSER   | [Bazar] Exracted 68 items in 193ms
+2026-07-24 13:11:08.34 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (897ms)
+2026-07-24 13:11:08.39 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 54ms
+2026-07-24 13:11:09.59 | INFO    | NETWORK  | [OLX] GET -> Status 200 OK (2148ms)
+2026-07-24 13:11:09.70 | WARNING | PARSER   | [OLX] 0 items found in 111ms! (CSS selector 'a.css-z3gu2d' broken or empty query)
+2026-07-24 13:11:09.71 | SUCCESS | API      | SEARCH COMPLETED -> Found 78 items across all sites in 2.28s
+2026-07-24 13:12:21.90 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13'
+2026-07-24 13:12:21.90 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'IPhone 13'
+2026-07-24 13:12:21.91 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-24 13:12:22.37 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (453ms)
+2026-07-24 13:12:22.38 | INFO    | PARSER   | [Smenime] Exracted 4 items in 13ms
+2026-07-24 13:12:22.60 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (686ms)
+2026-07-24 13:12:22.78 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 177ms
+2026-07-24 13:12:23.35 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (1434ms)
+2026-07-24 13:12:23.64 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 290ms
+2026-07-24 13:12:23.74 | INFO    | PARSER   | [MasterClub] Exracted 20 items in 224ms
+2026-07-24 13:12:23.74 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1830ms)
+2026-07-24 13:12:23.79 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1875ms)
+2026-07-24 13:12:23.95 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 207ms
+2026-07-24 13:12:24.33 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 528ms
+2026-07-24 13:12:24.80 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (2886ms)
+2026-07-24 13:12:25.45 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 650ms
+2026-07-24 13:12:25.45 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 3.55s
