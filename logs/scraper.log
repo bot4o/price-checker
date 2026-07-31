@@ -871,3 +871,258 @@
 2026-07-24 13:12:24.80 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (2886ms)
 2026-07-24 13:12:25.45 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 650ms
 2026-07-24 13:12:25.45 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 3.55s
+2026-07-25 14:36:35.71 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 12:24:28.26 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'ThinkPad'
+2026-07-29 12:24:28.26 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'ThinkPad'
+2026-07-29 12:24:29.68 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (1346ms)
+2026-07-29 12:24:29.77 | INFO    | PARSER   | [Bazar] Exracted 68 items in 84ms
+2026-07-29 12:24:29.90 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (1564ms)
+2026-07-29 12:24:29.96 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 56ms
+2026-07-29 12:24:31.92 | INFO    | NETWORK  | [OLX] GET -> Status 200 OK (3586ms)
+2026-07-29 12:24:32.03 | WARNING | PARSER   | [OLX] 0 items found in 103ms! (CSS selector 'a.css-z3gu2d' broken or empty query)
+2026-07-29 12:24:32.03 | SUCCESS | API      | SEARCH COMPLETED -> Found 78 items across all sites in 3.77s
+2026-07-29 12:35:32.67 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'ThinkPad'
+2026-07-29 12:35:32.67 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'ThinkPad'
+2026-07-29 12:35:32.68 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-29 12:35:33.24 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (556ms)
+2026-07-29 12:35:33.26 | WARNING | PARSER   | [Cellphone BG] 0 items found in 25ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-29 12:35:33.28 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (596ms)
+2026-07-29 12:35:33.29 | WARNING | PARSER   | [Smenime] 0 items found in 12ms! (CSS selector 'a[title]' broken or empty query)
+2026-07-29 12:35:33.69 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1012ms)
+2026-07-29 12:35:33.75 | WARNING | PARSER   | [Alpha Mobile] 0 items found in 52ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-29 12:35:33.78 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (1100ms)
+2026-07-29 12:35:33.92 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1234ms)
+2026-07-29 12:35:34.01 | WARNING | PARSER   | [GagoGSM] 0 items found in 228ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-29 12:35:34.27 | INFO    | PARSER   | [MasterClub] Exracted 2 items in 115ms
+2026-07-29 12:35:34.38 | WARNING | PARSER   | [Siaifon] 0 items found in 458ms! (CSS selector 'a.c-product-grid__product-title-link' broken or empty query)
+2026-07-29 12:35:37.78 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (5091ms)
+2026-07-29 12:35:38.46 | WARNING | PARSER   | [PhoneZona] 0 items found in 685ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-29 12:35:38.46 | SUCCESS | API      | SEARCH COMPLETED -> Found 2 items across all sites in 5.79s
+2026-07-29 12:35:51.66 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13'
+2026-07-29 12:35:51.66 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'IPhone 13'
+2026-07-29 12:35:51.67 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-29 12:35:52.18 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (503ms)
+2026-07-29 12:35:52.20 | INFO    | PARSER   | [Smenime] Exracted 4 items in 19ms
+2026-07-29 12:35:52.38 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (710ms)
+2026-07-29 12:35:52.55 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 168ms
+2026-07-29 12:35:53.08 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (1405ms)
+2026-07-29 12:35:53.24 | INFO    | PARSER   | [MasterClub] Exracted 20 items in 244ms
+2026-07-29 12:35:53.38 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 308ms
+2026-07-29 12:35:53.39 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1710ms)
+2026-07-29 12:35:53.44 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1771ms)
+2026-07-29 12:35:53.68 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 230ms
+2026-07-29 12:35:53.95 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 558ms
+2026-07-29 12:35:54.61 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (2932ms)
+2026-07-29 12:35:55.25 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 645ms
+2026-07-29 12:35:55.25 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 3.59s
+2026-07-29 12:36:28.22 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'ThinkPad'
+2026-07-29 12:36:28.22 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'ThinkPad'
+2026-07-29 12:36:28.69 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (451ms)
+2026-07-29 12:36:28.77 | INFO    | PARSER   | [Bazar] Exracted 68 items in 82ms
+2026-07-29 12:36:29.01 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (781ms)
+2026-07-29 12:36:29.08 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 62ms
+2026-07-29 12:36:31.62 | INFO    | NETWORK  | [OLX] GET -> Status 200 OK (3390ms)
+2026-07-29 12:36:31.73 | WARNING | PARSER   | [OLX] 0 items found in 98ms! (CSS selector 'a.css-z3gu2d' broken or empty query)
+2026-07-29 12:36:31.73 | SUCCESS | API      | SEARCH COMPLETED -> Found 78 items across all sites in 3.5s
+2026-07-29 12:38:37.06 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 12:38:37.71 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:15:03.08 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:18:29.12 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:18:29.97 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:18:34.81 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:18:36.06 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:18:36.72 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:18:38.29 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:19:00.05 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13'
+2026-07-29 13:19:00.05 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'IPhone 13'
+2026-07-29 13:19:00.11 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-29 13:19:00.73 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (623ms)
+2026-07-29 13:19:00.76 | INFO    | PARSER   | [Smenime] Exracted 4 items in 30ms
+2026-07-29 13:19:01.20 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (1096ms)
+2026-07-29 13:19:01.37 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 163ms
+2026-07-29 13:19:01.44 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1330ms)
+2026-07-29 13:19:02.17 | INFO    | PARSER   | [MasterClub] Exracted 20 items in 406ms
+2026-07-29 13:19:02.18 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 741ms
+2026-07-29 13:19:02.18 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (2078ms)
+2026-07-29 13:19:02.53 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 351ms
+2026-07-29 13:19:02.60 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (2498ms)
+2026-07-29 13:19:02.78 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 171ms
+2026-07-29 13:19:03.42 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (3313ms)
+2026-07-29 13:19:04.15 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 732ms
+2026-07-29 13:19:04.15 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 4.11s
+2026-07-29 13:19:05.52 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'IPhone 13'
+2026-07-29 13:19:05.52 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'IPhone 13'
+2026-07-29 13:19:06.33 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (800ms)
+2026-07-29 13:19:06.35 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (817ms)
+2026-07-29 13:19:06.46 | WARNING | PARSER   | [LaptopRemont] 0 items found in 93ms! (CSS selector 'a[href^='https://www.laptopremont.com/']' broken or empty query)
+2026-07-29 13:19:06.46 | INFO    | PARSER   | [Bazar] Exracted 63 items in 132ms
+2026-07-29 13:19:07.61 | ERROR   | PARSER   | [OLX] Fetch/Parse failed: Custom fetcher returned empty/None
+2026-07-29 13:19:07.61 | SUCCESS | API      | SEARCH COMPLETED -> Found 63 items across all sites in 2.08s
+2026-07-29 13:20:27.71 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:20:28.32 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:20:29.16 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:20:29.86 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:20:42.56 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'IPhone 13'
+2026-07-29 13:20:42.56 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'IPhone 13'
+2026-07-29 13:20:43.24 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (648ms)
+2026-07-29 13:20:43.34 | INFO    | PARSER   | [Bazar] Exracted 63 items in 99ms
+2026-07-29 13:20:43.45 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (859ms)
+2026-07-29 13:20:43.49 | WARNING | PARSER   | [LaptopRemont] 0 items found in 36ms! (CSS selector 'a[href^='https://www.laptopremont.com/']' broken or empty query)
+2026-07-29 13:20:44.70 | ERROR   | PARSER   | [OLX] Fetch/Parse failed: Custom fetcher returned empty/None
+2026-07-29 13:20:44.70 | SUCCESS | API      | SEARCH COMPLETED -> Found 63 items across all sites in 2.14s
+2026-07-29 13:23:29.18 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:26:02.65 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'IPhone 13'
+2026-07-29 13:26:02.65 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'IPhone 13'
+2026-07-29 13:26:03.36 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (665ms)
+2026-07-29 13:26:03.47 | INFO    | PARSER   | [Bazar] Exracted 63 items in 114ms
+2026-07-29 13:26:03.65 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (964ms)
+2026-07-29 13:26:03.69 | WARNING | PARSER   | [LaptopRemont] 0 items found in 37ms! (CSS selector 'a[href^='https://www.laptopremont.com/']' broken or empty query)
+2026-07-29 13:26:05.71 | ERROR   | PARSER   | [OLX] Fetch/Parse failed: Custom fetcher returned empty/None
+2026-07-29 13:26:05.71 | SUCCESS | API      | SEARCH COMPLETED -> Found 63 items across all sites in 3.06s
+2026-07-29 13:27:29.66 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:45:22.06 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:45:59.74 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'IPhone 13'
+2026-07-29 13:45:59.74 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'IPhone 13'
+2026-07-29 13:46:00.38 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (588ms)
+2026-07-29 13:46:00.46 | INFO    | PARSER   | [Bazar] Exracted 63 items in 84ms
+2026-07-29 13:46:00.55 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (765ms)
+2026-07-29 13:46:00.58 | WARNING | PARSER   | [LaptopRemont] 0 items found in 32ms! (CSS selector 'a[href^='https://www.laptopremont.com/']' broken or empty query)
+2026-07-29 13:46:01.73 | ERROR   | PARSER   | [OLX] Fetch/Parse failed: Custom fetcher returned empty/None
+2026-07-29 13:46:01.73 | SUCCESS | API      | SEARCH COMPLETED -> Found 63 items across all sites in 2.0s
+2026-07-29 13:54:07.28 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:54:07.98 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 13:54:27.28 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'ThinkPad'
+2026-07-29 13:54:27.29 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'ThinkPad'
+2026-07-29 13:54:27.92 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (597ms)
+2026-07-29 13:54:28.00 | INFO    | PARSER   | [Bazar] Exracted 68 items in 81ms
+2026-07-29 13:54:28.23 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (906ms)
+2026-07-29 13:54:28.28 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 53ms
+2026-07-29 13:54:29.45 | WARNING | PARSER   | [OLX] 0 items found in 96ms! (CSS selector 'div[data-cy='l-card']' broken or empty query)
+2026-07-29 13:54:29.45 | SUCCESS | API      | SEARCH COMPLETED -> Found 78 items across all sites in 2.17s
+2026-07-29 14:00:08.95 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:02:15.78 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:02:16.85 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:02:16.85 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'ThinkPad'
+2026-07-29 14:02:16.85 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'ThinkPad'
+2026-07-29 14:02:17.63 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (712ms)
+2026-07-29 14:02:17.86 | INFO    | PARSER   | [Bazar] Exracted 68 items in 221ms
+2026-07-29 14:02:18.03 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (1121ms)
+2026-07-29 14:02:18.11 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 74ms
+2026-07-29 14:02:18.82 | WARNING | PARSER   | [OLX] 0 items found in 134ms! (CSS selector 'a[data-cy='listing-ad-title']' broken or empty query)
+2026-07-29 14:02:18.82 | SUCCESS | API      | SEARCH COMPLETED -> Found 78 items across all sites in 1.97s
+2026-07-29 14:02:22.82 | SUCCESS | API      | CACHE HIT -> Return instant results for 'ThinkPad' (pc)
+2026-07-29 14:12:52.81 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:12:53.54 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:12:54.45 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:13:26.87 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:13:37.65 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'THinkpad'
+2026-07-29 14:13:37.65 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'THinkpad'
+2026-07-29 14:13:38.34 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (638ms)
+2026-07-29 14:13:38.43 | INFO    | PARSER   | [Bazar] Exracted 68 items in 87ms
+2026-07-29 14:13:38.43 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (730ms)
+2026-07-29 14:13:38.50 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 68ms
+2026-07-29 14:13:39.83 | WARNING | PARSER   | [OLX] 0 items found in 94ms! (CSS selector 'a[data-cy='listing-ad-title']' broken or empty query)
+2026-07-29 14:13:39.83 | SUCCESS | API      | SEARCH COMPLETED -> Found 78 items across all sites in 2.17s
+2026-07-29 14:14:11.23 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:14:56.83 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:14:57.76 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:15:24.35 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:15:29.34 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'THinkpad'
+2026-07-29 14:15:29.35 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'THinkpad'
+2026-07-29 14:15:29.39 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-29 14:15:29.91 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (515ms)
+2026-07-29 14:15:29.93 | WARNING | PARSER   | [Cellphone BG] 0 items found in 26ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-29 14:15:29.96 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (568ms)
+2026-07-29 14:15:29.97 | WARNING | PARSER   | [Smenime] 0 items found in 13ms! (CSS selector 'a[title]' broken or empty query)
+2026-07-29 14:15:30.44 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1043ms)
+2026-07-29 14:15:30.51 | WARNING | PARSER   | [Alpha Mobile] 0 items found in 69ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-29 14:15:30.51 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1115ms)
+2026-07-29 14:15:30.93 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (1538ms)
+2026-07-29 14:15:31.01 | INFO    | PARSER   | [MasterClub] Exracted 2 items in 210ms
+2026-07-29 14:15:31.33 | WARNING | PARSER   | [GagoGSM] 0 items found in 392ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-29 14:15:31.34 | WARNING | PARSER   | [Siaifon] 0 items found in 827ms! (CSS selector 'a.c-product-grid__product-title-link' broken or empty query)
+2026-07-29 14:15:31.50 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (2102ms)
+2026-07-29 14:15:32.30 | WARNING | PARSER   | [PhoneZona] 0 items found in 804ms! (CSS selector '.product-thumb h4 a, .caption a, .name a, h4 a, .product-title a, a.prod-info' broken or empty query)
+2026-07-29 14:15:32.30 | SUCCESS | API      | SEARCH COMPLETED -> Found 2 items across all sites in 2.96s
+2026-07-29 14:15:35.84 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'THinkpad'
+2026-07-29 14:15:35.84 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'THinkpad'
+2026-07-29 14:15:36.43 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (578ms)
+2026-07-29 14:15:36.50 | INFO    | PARSER   | [Bazar] Exracted 68 items in 65ms
+2026-07-29 14:15:36.63 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (782ms)
+2026-07-29 14:15:36.77 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 137ms
+2026-07-29 14:15:37.53 | WARNING | PARSER   | [OLX] 0 items found in 91ms! (CSS selector 'a[data-cy='listing-ad-title']' broken or empty query)
+2026-07-29 14:15:37.53 | SUCCESS | API      | SEARCH COMPLETED -> Found 78 items across all sites in 1.69s
+2026-07-29 14:18:18.85 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:18:40.38 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:18:42.56 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:18:49.18 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'ThinkPad'
+2026-07-29 14:18:49.18 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'ThinkPad'
+2026-07-29 14:18:49.86 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (632ms)
+2026-07-29 14:18:49.95 | INFO    | PARSER   | [Bazar] Exracted 68 items in 81ms
+2026-07-29 14:18:49.96 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (733ms)
+2026-07-29 14:18:50.03 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 68ms
+2026-07-29 14:18:51.13 | WARNING | PARSER   | [OLX] 0 items found in 99ms! (CSS selector '.css-61fb99' broken or empty query)
+2026-07-29 14:18:51.14 | SUCCESS | API      | SEARCH COMPLETED -> Found 78 items across all sites in 1.95s
+2026-07-29 14:52:08.96 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:52:09.83 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:52:12.74 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:52:13.73 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:52:20.39 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:52:21.31 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:52:31.59 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'ThinkPad'
+2026-07-29 14:52:31.59 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'ThinkPad'
+2026-07-29 14:52:32.16 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (524ms)
+2026-07-29 14:52:32.24 | INFO    | PARSER   | [Bazar] Exracted 68 items in 83ms
+2026-07-29 14:52:32.41 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (776ms)
+2026-07-29 14:52:32.48 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 68ms
+2026-07-29 14:52:34.69 | WARNING | PARSER   | [OLX] 0 items found in 108ms! (CSS selector '.ad-card-title a' broken or empty query)
+2026-07-29 14:52:34.69 | SUCCESS | API      | SEARCH COMPLETED -> Found 78 items across all sites in 3.1s
+2026-07-29 14:54:54.98 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-29 14:54:55.68 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-31 08:23:07.14 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-31 11:42:55.84 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-31 14:29:22.15 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'iphone 13'
+2026-07-31 14:29:22.15 | INFO    | SYSTEM   | Launching concurent search across 7 'phone' sites for: 'iphone 13'
+2026-07-31 14:29:22.20 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-07-31 14:29:23.45 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (1247ms)
+2026-07-31 14:29:23.64 | INFO    | PARSER   | [GagoGSM] Exracted 28 items in 186ms
+2026-07-31 14:29:23.93 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (1731ms)
+2026-07-31 14:29:23.95 | INFO    | PARSER   | [Smenime] Exracted 4 items in 14ms
+2026-07-31 14:29:24.11 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (1917ms)
+2026-07-31 14:29:24.33 | INFO    | PARSER   | [Cellphone BG] Exracted 19 items in 215ms
+2026-07-31 14:29:24.33 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (2133ms)
+2026-07-31 14:29:24.46 | INFO    | PARSER   | [Alpha Mobile] Exracted 50 items in 125ms
+2026-07-31 14:29:24.91 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (2709ms)
+2026-07-31 14:29:25.41 | INFO    | PARSER   | [MasterClub] Exracted 20 items in 324ms
+2026-07-31 14:29:25.53 | INFO    | PARSER   | [Siaifon] Exracted 60 items in 612ms
+2026-07-31 14:29:26.49 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (4293ms)
+2026-07-31 14:29:27.22 | INFO    | PARSER   | [PhoneZona] Exracted 15 items in 729ms
+2026-07-31 14:29:27.23 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 5.08s
+2026-07-31 14:29:34.97 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'iphone 13'
+2026-07-31 14:29:34.97 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'iphone 13'
+2026-07-31 14:29:35.74 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (763ms)
+2026-07-31 14:29:35.78 | WARNING | PARSER   | [LaptopRemont] 0 items found in 32ms! (CSS selector 'a[href^='https://www.laptopremont.com/']' broken or empty query)
+2026-07-31 14:29:36.09 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (1108ms)
+2026-07-31 14:29:36.16 | INFO    | PARSER   | [Bazar] Exracted 64 items in 69ms
+2026-07-31 14:29:36.92 | WARNING | PARSER   | [OLX] 0 items found in 107ms! (CSS selector 'a[data-cy='listing-ad-title']' broken or empty query)
+2026-07-31 14:29:36.93 | SUCCESS | API      | SEARCH COMPLETED -> Found 64 items across all sites in 1.96s
+2026-07-31 14:29:44.95 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'Thinkpad'
+2026-07-31 14:29:44.96 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'Thinkpad'
+2026-07-31 14:29:45.69 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (717ms)
+2026-07-31 14:29:45.75 | INFO    | PARSER   | [Bazar] Exracted 68 items in 64ms
+2026-07-31 14:29:45.96 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (997ms)
+2026-07-31 14:29:46.02 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 57ms
+2026-07-31 14:29:47.70 | WARNING | PARSER   | [OLX] 0 items found in 103ms! (CSS selector 'a[data-cy='listing-ad-title']' broken or empty query)
+2026-07-31 14:29:47.70 | SUCCESS | API      | SEARCH COMPLETED -> Found 78 items across all sites in 2.74s
+2026-07-31 14:51:41.08 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-31 14:51:42.41 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-31 14:51:45.06 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-07-31 14:52:00.96 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'Thinkpad'
+2026-07-31 14:52:00.96 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'Thinkpad'
+2026-07-31 14:52:01.41 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (399ms)
+2026-07-31 14:52:01.50 | INFO    | PARSER   | [Bazar] Exracted 68 items in 87ms
+2026-07-31 14:52:02.02 | INFO    | NETWORK  | [LaptopRemont] GET -> Status 200 OK (1020ms)
+2026-07-31 14:52:02.11 | INFO    | PARSER   | [LaptopRemont] Exracted 10 items in 89ms
+2026-07-31 14:52:03.00 | INFO    | PARSER   | [OLX] Exracted 51 items in 123ms
+2026-07-31 14:52:03.00 | SUCCESS | API      | SEARCH COMPLETED -> Found 129 items across all sites in 2.04s
+2026-07-31 16:42:30.34 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!

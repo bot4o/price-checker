@@ -2,6 +2,7 @@ import asyncio
 import sys
 import time
 import re
+import json
 from urllib.parse import urljoin, quote_plus
 
 import httpx
@@ -11,6 +12,182 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from loguru import logger
 from typing import List, Dict, Any
+
+
+OLX_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/126.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "bg-BG,bg;q=0.9,en-US;q=0.8,en;q=0.7",
+}
+
+async def fetch_olx_html(client: httpx.AsyncClient, query: str) -> str | None:
+    """Извлича HTML от OLX с поддръжка на пренасочвания (redirects) и браузерни хедъри."""
+    net_log = logger.bind(component="NETWORK")
+    formatted_query = quote_plus(query.strip().lower())
+    search_url = f"https://www.olx.bg/list/q-{formatted_query}/"
+
+    try:
+        # follow_redirects=True е КРИТИЧНО за OLX
+        response = await client.get(
+            search_url, 
+            headers=OLX_HEADERS, 
+            follow_redirects=True, 
+            timeout=10.0
+        )
+
+        if response.status_code == 200 and response.text:
+            return response.text
+
+        net_log.warning(f"[OLX] Request failed with status code {response.status_code}")
+        return None
+
+    except Exception as e:
+        net_log.error(f"[OLX] Fetch error: {type(e).__name__} -> {str(e)}")
+        return None
+
+def parse_olx_html(html: str, query: str) -> list[dict]:
+    """Устойчив парсер за OLX чрез data-cy атрибути и __NEXT_DATA__ JSON fallback."""
+    results = []
+    soup = BeautifulSoup(html, "html.parser")
+    search_terms = query.lower().split()
+
+    # СТРАТЕГИЯ 1: Парсване през data-cy / data-testid атрибути
+    cards = soup.select('div[data-cy="l-card"], div[data-testid="l-card"]')
+
+    for card in cards:
+        link_elem = card.select_one('a[data-cy="listing-ad-title"], a[href*="/d/ad/"], a[href*="/ad/"]')
+        if not link_elem:
+            continue
+
+        title = link_elem.get_text(strip=True)
+        href = link_elem.get("href", "")
+
+        if not title or not href or not isinstance(href, str):
+            continue
+
+        # Филтър за думите в търсенето
+        if not all(term in title.lower() for term in search_terms):
+            continue
+
+        full_url = urljoin("https://www.olx.bg", href)
+
+        # Извличане на цената
+        price = "N/A"
+        price_elem = card.select_one('p[data-testid="ad-price"], [data-cy="ad-price"]')
+        if price_elem:
+            price = price_elem.get_text(strip=True)
+
+        results.append({
+            "site": "OLX",
+            "title": title,
+            "url": full_url,
+            "price": price,
+        })
+
+    # СТРАТЕГИЯ 2: Fallback през __NEXT_DATA__ JSON
+    if not results:
+        next_data_script = soup.find("script", id="__NEXT_DATA__")
+        if next_data_script and next_data_script.string:
+            try:
+                json_data = json.loads(next_data_script.string)
+                ads = json_data.get("props", {}).get("pageProps", {}).get("ads", [])
+
+                for ad in ads:
+                    title = ad.get("title", "")
+                    if not all(term in title.lower() for term in search_terms):
+                        continue
+
+                    url = ad.get("url", "")
+                    full_url = urljoin("https://www.olx.bg", url) if url else "https://www.olx.bg"
+
+                    price = "N/A"
+                    for p in ad.get("params", []):
+                        if p.get("key") == "price":
+                            price = p.get("value", {}).get("label", "N/A")
+                            break
+
+                    results.append({
+                        "site": "OLX",
+                        "title": title,
+                        "url": full_url,
+                        "price": price,
+                    })
+            except Exception:
+                pass
+
+    return results
+
+async def scrape_olx(client: httpx.AsyncClient, query: str) -> list[dict]:
+    """Самостоятелен скрейпър за OLX – извлича заглавие, линк и цена."""
+    results = []
+    formatted_query = quote_plus(query.strip().lower())
+    search_url = f"https://www.olx.bg/list/q-{formatted_query}/"
+
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+        ),
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "bg-BG,bg;q=0.9,en-US;q=0.8,en;q=0.7",
+    }
+
+    try:
+        response = await client.get(
+            search_url, headers=headers, follow_redirects=True, timeout=10.0
+        )
+        if response.status_code != 200:
+            return results
+
+        soup = BeautifulSoup(response.text, "html.parser")
+        search_terms = query.lower().split()
+
+        # Намираме контейнерите на обявите
+        cards = soup.select('div[data-cy="l-card"], div[data-testid="l-card"]')
+
+        for card in cards:
+            # Намираме <a> тага за заглавието
+            link_elem = card.select_one(
+                'a[data-cy="listing-ad-title"], a[href*="/d/ad/"], a[href*="/ad/"]'
+            )
+            if not link_elem:
+                continue
+
+            title = link_elem.get_text(strip=True)
+            href = link_elem.get("href", "")
+
+            if not title or not href or not isinstance(href, str):
+                continue
+
+            # Филтър по думите в търсенето
+            if not all(term in title.lower() for term in search_terms):
+                continue
+
+            full_url = urljoin("https://www.olx.bg", href)
+
+            # Намираме цената вътре в същата картичка
+            price = "N/A"
+            price_elem = card.select_one(
+                'p[data-testid="ad-price"], [data-cy="ad-price"]'
+            )
+            if price_elem:
+                price = price_elem.get_text(strip=True)
+
+            results.append({
+                "site": "OLX",
+                "title": title,
+                "url": full_url,
+                "price": price,
+            })
+
+    except Exception as e:
+        print(f"[OLX] Scraping error: {e}")
+
+    return results
 
 async def scrape_masterclub(client: httpx.AsyncClient, query: str) -> List[Dict[str, Any]]:
     """
@@ -115,7 +292,7 @@ async def fetch_masterclub_html(client: httpx.AsyncClient, query: str) -> str | 
             # Fallback regex за JS променливи
             match = re.search(r'security_hash[^\w]*([a-f0-9]{32})', home_resp.text, re.I)
             if match:
-                sec_hash = match.group(1)
+               sec_hash = match.group(1)
 
         # Стъпка 3: Сглобяване на търсещия URL адрес
         encoded_query = quote_plus(query)
@@ -171,8 +348,9 @@ PC_SITES = [
     },
     {
         "name": "OLX",
-        "url": "https://www.olx.bg/ads/q-",
-        "selector": "a.css-z3gu2d",
+        "url": "https://www.olx.bg/list/q-{query}/",
+        "selector": "a[href*='/d/ad/'], a[href*='/ad/']",
+        "custom_fetch": fetch_olx_html,
     },
     {
         "name": "Bazar",
@@ -182,6 +360,7 @@ PC_SITES = [
 ]
 
 PHONE_SITES = [
+
     #OpenCart
     {
         "name": "Cellphone BG",
@@ -213,9 +392,9 @@ PHONE_SITES = [
     },
     {
         "name": "MasterClub",
-        "url": "https://masterclub.info/", # Base URL; custom fetcher builds the full query
+        "url": "https://masterclub.info/", 
         "selector": "a.product-title",
-        "custom_fetch": fetch_masterclub_html  # <-- Attach the function directly!
+        "custom_fetch": fetch_masterclub_html  
     },
     {
         "name": "Siaifon",
@@ -413,6 +592,7 @@ async def search_all(category: str, query: str) -> dict:
         results = await asyncio.gather(*tasks)
 
     return {"query": query, "category": category, "results": results}
+
 
 
 # FastAPI 
