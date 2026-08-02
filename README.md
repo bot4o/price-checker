@@ -18,5 +18,5 @@ cd price-checker
 ## Starting (docker):
 ```sh
     docker build -t aks-price-checker .
-    docker run -d -p 8090:8090 --name price-checker aks-price-checker
+    docker run -d -p 8090:8000 --name price-checker aks-price-checker
 ```
