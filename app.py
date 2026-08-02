@@ -12,13 +12,14 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from loguru import logger
 from typing import List, Dict, Any
+from playwright.async_api import async_playwright
 
 
 OLX_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/126.0.0.0 Safari/537.36"
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/126.0.0.0 Safari/537.36"
     ),
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "bg-BG,bg;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -130,7 +131,7 @@ async def scrape_olx(client: httpx.AsyncClient, query: str) -> list[dict]:
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
         ),
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "bg-BG,bg;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -257,10 +258,42 @@ async def scrape_masterclub(client: httpx.AsyncClient, query: str) -> List[Dict[
 
     return results
 
+async def fetch_laptopremont_html(client: httpx.AsyncClient, query: str) -> str | None:
+    """Използва истински браузър (Playwright), за да премине през SuperJS защитата."""
+    net_log = logger.bind(component="NETWORK")
+    encoded_query = quote_plus(query.strip())
+    url = f"https://www.laptopremont.com/advanced_search_result.php?search_in_description=1&inc_subcat=1&keywords={encoded_query}"
+
+    try:
+        net_log.info(f"[LaptopRemont] Launching Playwright to bypass SuperJS challenge...")
+        
+        async with async_playwright() as p:
+            # Стартираме невидим браузър
+            browser = await p.chromium.launch(headless=True)
+            page = await browser.new_page()
+            
+            # Зареждаме страницата и чакаме мрежата да се "успокои" (да минат JS редиректите)
+            await page.goto(url, wait_until="networkidle", timeout=15000)
+            
+            # Взимаме заглавието, за да проверим дали сме минали защитата
+            title = await page.title()
+            if "SuperJS" in title:
+                net_log.warning("[LaptopRemont] SuperJS is taking longer... waiting extra 3 seconds.")
+                await asyncio.sleep(3)
+                
+            html = await page.content()
+            await browser.close()
+            
+            return html
+
+    except Exception as e:
+        net_log.error(f"[LaptopRemont] Playwright fetch error: {str(e)}")
+        return None
+
 MASTERCLUB_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+            "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
     ),
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "Accept-Language": "bg,en-US;q=0.7,en;q=0.3",
@@ -270,12 +303,12 @@ async def fetch_masterclub_html(client: httpx.AsyncClient, query: str) -> str | 
     """Извлича сесийна бисквитка, security_hash и изпълнява търсенето в MasterClub."""
     net_log = logger.bind(component="NETWORK")
     home_url = "https://masterclub.info/"
-    
+
     try:
         # Стъпка 1: Зареждане на началната страница за сесийна бисквитка и хедъри
         net_log.info("[MasterClub] Fetching homepage for fresh session & security_hash...")
         home_resp = await client.get(home_url, headers=MASTERCLUB_HEADERS, timeout=8.0)
-        
+
         if home_resp.status_code != 200:
             net_log.warning(f"[MasterClub] Homepage returned status {home_resp.status_code}")
             return None
@@ -283,7 +316,7 @@ async def fetch_masterclub_html(client: httpx.AsyncClient, query: str) -> str | 
         # Стъпка 2: Извличане на security_hash от HTML / JS
         sec_hash = ""
         soup = BeautifulSoup(home_resp.text, "html.parser")
-        
+
         # Проверка за скрити input полета
         hash_input = soup.find("input", {"name": "security_hash"})
         if hash_input and hash_input.get("value"):
@@ -292,27 +325,27 @@ async def fetch_masterclub_html(client: httpx.AsyncClient, query: str) -> str | 
             # Fallback regex за JS променливи
             match = re.search(r'security_hash[^\w]*([a-f0-9]{32})', home_resp.text, re.I)
             if match:
-               sec_hash = match.group(1)
+                sec_hash = match.group(1)
 
         # Стъпка 3: Сглобяване на търсещия URL адрес
         encoded_query = quote_plus(query)
         search_url = (
             f"https://masterclub.info/?match=all&subcats=Y&pcode_from_q=Y"
-            f"&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y"
-            f"&q={encoded_query}&dispatch=products.search"
+                f"&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y"
+                f"&q={encoded_query}&dispatch=products.search"
         )
         if sec_hash:
             search_url += f"&security_hash={sec_hash}"
 
         # Добавяме Referer хедър, за да симулираме пренасочване от началната страница
         search_headers = {**MASTERCLUB_HEADERS, "Referer": home_url}
-        
+
         # Стъпка 4: Изпълнение на търсенето
         search_resp = await client.get(search_url, headers=search_headers, timeout=8.0)
-        
+
         if search_resp.status_code == 200 and search_resp.text:
             return search_resp.text
-            
+
         net_log.warning(f"[MasterClub] Search returned status {search_resp.status_code}")
         return None
 
@@ -343,8 +376,9 @@ logger = logger.bind(component="SYSTEM")
 PC_SITES = [
     {
         "name": "LaptopRemont",
-        "url": "https://www.laptopremont.com/advanced_search_result.php?keywords=",
-        "selector": "a[href^='https://www.laptopremont.com/']",
+        "url": "https://www.laptopremont.com/advanced_search_result.php?search_in_description=1&inc_subcat=1&keywords=",
+        "selector": "a[href*='products_id='], .productListing-data a",
+        "custom_fetch": fetch_laptopremont_html,
     },
     {
         "name": "OLX",
@@ -442,14 +476,14 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
     items = []
     seen = set()
 
-    # specific filters for prices in different sites 
+    # Specific filters for prices in different sites 
     site_price_tags = {
         "Siaifon": [".c-product-grid__product-price", ".price"],
         "Cellphone BG": [".price-new", ".price"],
         "Alpha Mobile": [".price-new", ".price"],
         "GagoGSM": [".price-new", ".price"],
         "PhoneZona": [".price-new", ".price"],
-        "MasterClub": [".ty-price-num", ".price"],
+        "MasterClub": [".ty-price", ".price"],
         "OLX": ["[data-testid='ad-price']", ".css-19346ff", ".price"],
         "Bazar": ["span.price", ".price"]
     }
@@ -459,11 +493,30 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
         if not href:
             continue
 
-        title = str(link.get("title") or "").lower()
+        raw_title = link.get("title") or ""
         link_text = link.get_text(strip=True)
-        haystack = title + " " + link_text.lower()
 
-        if not all(term in haystack for term in search_terms):
+        # 1. Clean Title Extraction
+        if raw_title.strip() and raw_title.strip() != "-":
+            clean_title = raw_title.strip()
+        elif link_text and link_text.strip() != "-":
+            clean_title = " ".join(link_text.split())
+        else:
+            # Fallback to image alt text if link wraps an image
+            img_elem = link.select_one("img")
+            clean_title = img_elem.get("alt", "").strip() if img_elem else ""
+
+        # Strip leading/trailing dashes and whitespace
+        clean_title = clean_title.lstrip("- ").rstrip("- ").strip()
+
+        # Skip links that have no meaningful product title
+        if not clean_title:
+            continue
+
+        haystack = clean_title.lower()
+
+        # 2. Search Term Filter
+        if site["name"] != "LaptopRemont" and not all(term in haystack for term in search_terms): 
             continue
 
         full_url = urljoin(site["url"], href)
@@ -471,17 +524,14 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
             continue
         seen.add(full_url)
 
-        clean_title = " ".join(link_text.split()) or title
         detected_price = ""
 
-        # Getting targetet selectors for prices for the approporiate site
+        # 3. Targeted Price Extraction
         price_tags = site_price_tags.get(site["name"], [".price", ".price-new"])
-
-        # Dynamic climbing upon the parents for finding A PRICE
         current_parent = link
 
-        # Climbs up 4 levels upon the DOM tree
-        for _ in range(4):
+        # Climb up to 7 levels up the DOM tree to locate the price
+        for _ in range(7):
             current_parent = current_parent.parent
             if not current_parent or current_parent.name == "[document]":
                 break
@@ -490,32 +540,45 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
             for tag in price_tags:
                 price_elem = current_parent.select_one(tag)
                 if price_elem:
-                    # Removing spaces and new rows 
                     raw_text = price_elem.get_text(strip=True)
                     found_price_text = " ".join(raw_text.split())
                     if found_price_text:
                         break
 
-            # If valid price is found in this parent, we save it and stops searching 
+            # Fallback regex for LaptopRemont table rows
+            if not found_price_text and site["name"] == "LaptopRemont" and current_parent.name == "tr":
+                row_text = current_parent.get_text(separator=" ", strip=True)
+                price_match = re.search(r'([\d.,]+)\s*лв', row_text, re.IGNORECASE)
+                if price_match:
+                    found_price_text = price_match.group(1).strip() + " лв."
+
             if found_price_text:
                 detected_price = found_price_text
                 break
 
-        # Building title with price
-        if detected_price:
-            display_title = f"{clean_title} — {detected_price}"
-        else:
-            display_title = clean_title
+        # 4. Append item with separated 'title' and 'price'
+        items.append({
+            "title": clean_title,
+            "url": full_url,
+            "price": detected_price if detected_price else "N/A"
+        })
 
-        items.append({"title": display_title, "url": full_url})
     elapsed_ms = round((time.perf_counter() - start_time) * 1000)
 
-    # Parsing speed and anomaly warnings
+    # Logging & Anomaly warnings
     parser_log = logger.bind(component="PARSER")
     if not items:
         parser_log.warning(f"[{site['name']}] 0 items found in {elapsed_ms}ms! (CSS selector '{site['selector']}' broken or empty query)")
+
+        if site["name"] == "LaptopRemont":
+            try:
+                with open("laptopremont_debug.html", "w", encoding="utf-8") as f:
+                    f.write(html)
+                parser_log.info(f"[{site['name']}] HTML dumped to laptopremont_debug.html")
+            except Exception as e:
+                parser_log.error(f"Failed to dump HTML: {e}")
     else:
-        parser_log.info(f"[{site['name']}] Exracted {len(items)} items in {elapsed_ms}ms")
+        parser_log.info(f"[{site['name']}] Extracted {len(items)} items in {elapsed_ms}ms")
 
     return items
 
@@ -632,23 +695,23 @@ async def api_search(
     cache_set(key, data)
     return data
 
-@app.get("/api/search")
-async def search_prices(query: str):
-    async with httpx.AsyncClient(headers=HEADERS, follow_redirects=True) as client:
-        # Run all site scrapers concurrently
-        tasks = [
-            scrape_masterclub(client, query),
-        ]
-
-        results_nested = await asyncio.gather(*tasks, return_exceptions=True)
-
-        # Flatten list of lists and ignore failed tasks
-        all_products = []
-        for res in results_nested:
-            if isinstance(res, list):
-                all_products.extend(res)
-
-        return {"query": query, "count": len(all_products), "results": all_products}
+# @app.get("/api/search")
+# async def search_prices(query: str):
+#     async with httpx.AsyncClient(headers=HEADERS, follow_redirects=True) as client:
+#         # Run all site scrapers concurrently
+#         tasks = [
+#             scrape_masterclub(client, query),
+#         ]
+# 
+#         results_nested = await asyncio.gather(*tasks, return_exceptions=True)
+# 
+#         # Flatten list of lists and ignore failed tasks
+#         all_products = []
+#         for res in results_nested:
+#             if isinstance(res, list):
+#                 all_products.extend(res)
+# 
+#         return {"query": query, "count": len(all_products), "results": all_products}
 @app.get("/")
 async def index():
     return FileResponse("static/index.html")
