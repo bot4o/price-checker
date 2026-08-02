@@ -19,7 +19,7 @@ async function run() {
     $("go").disabled = true;
     $("hint").style.display = "none";
     $("results").innerHTML = "";
-    $("status").textContent = "Търсене в " + (category === "phone" ? "7" : "3") + " сайта едновременно…";
+    $("status").textContent = "Търсене в " + (category === "phone" ? "8" : "3") + " сайта едновременно…";
 
     try {
         const r = await fetch(`/api/search?q=${encodeURIComponent(q)}&category=${category}`);
@@ -33,6 +33,54 @@ async function run() {
     }
 }
 
+function normalizeToEuro(priceStr) {
+    if (!priceStr || priceStr === "N/A") return "";
+
+    let str = priceStr.trim().replace(/^Цена\s*:\s*/i, '');
+
+    const masterClubEuroMatch = str.match(/^(\d{3,})\s*€/);
+    if (masterClubEuroMatch && !str.includes('.')) {
+        const rawCents = parseInt(masterClubEuroMatch[1], 10);
+        return (rawCents / 100).toFixed(2) + " €";
+    }
+
+    const prefixEuroMatch = str.match(/€\s*(\d+[\.,]\d{1,2})/);
+    if (prefixEuroMatch) {
+        const val = parseFloat(prefixEuroMatch[1].replace(',', '.'));
+        if (!isNaN(val)) return val.toFixed(2) + " €";
+    }
+
+    const suffixEuroMatch = str.match(/(\d+[\.,]\d{1,2})\s*€/);
+    if (suffixEuroMatch) {
+        const val = parseFloat(suffixEuroMatch[1].replace(',', '.'));
+        if (!isNaN(val)) return val.toFixed(2) + " €";
+    }
+
+    const intEuroMatch = str.match(/(\d+)\s*€/);
+    if (intEuroMatch) {
+        const val = parseFloat(intEuroMatch[1]);
+        if (!isNaN(val)) return val.toFixed(2) + " €";
+    }
+
+    const bgnMatch = str.match(/(\d+[\.,]?\d*)\s*лв/i);
+    if (bgnMatch) {
+        const val = parseFloat(bgnMatch[1].replace(',', '.'));
+        if (!isNaN(val)) {
+            return (val / 1.95583).toFixed(2) + " €";
+        }
+    }
+
+    const numMatch = str.match(/\d+[\.,]?\d*/);
+    if (numMatch) {
+        const val = parseFloat(numMatch[0].replace(',', '.'));
+        if (!isNaN(val)) {
+            return (val / 1.95583).toFixed(2) + " €";
+        }
+    }
+
+    return str;
+}
+
 function formatItemData(it) {
     let title = it.title || "";
     let price = (it.price && it.price !== "N/A") ? it.price : "";
@@ -42,10 +90,7 @@ function formatItemData(it) {
         const mcMatch = title.match(/(.*?)\s*[–\-]\s*(\d+)$/);
         if (mcMatch) {
             title = mcMatch[1].trim();
-            let p = mcMatch[2];
-            price = p.length > 2 ? p.slice(0, -2) + "." + p.slice(-2) + " лв." : p + " лв.";
-        } else if (/^\d+$/.test(price) && price.length > 2) {
-            price = price.slice(0, -2) + "." + price.slice(-2) + " лв.";
+            if (!price) price = mcMatch[2];
         }
     }
 
@@ -53,50 +98,27 @@ function formatItemData(it) {
         title = title.replace(/Баркод/, ' Баркод').replace(/Наличен/i, ' Наличен');
     }
 
-    // 3. Bazar.bg - Почистване на локация и интелигентно извличане на цена
     if (url.includes('bazar.bg')) {
-        // Търсим къде започва локацията (обикновено с "гр." или "с.")
         const locMatch = title.match(/(гр\.|с\.)\s*[А-Яа-я]/i);
-        
         if (locMatch) {
-            // Взимаме всичко от града до края (напр. "гр. Варна, Гранд Мол28 юли260€508,52лв")
             const tail = title.substring(locMatch.index); 
-            // Оставяме само чистото заглавие на продукта
             title = title.substring(0, locMatch.index).trim(); 
 
-            // Ако бекендът не е подал цена, я "спасяваме" от опашката
             if (!price) {
-                // Търсим първото число, което е последвано от валута (игнорира дати и квартали)
                 const priceMatch = tail.match(/(\d[\d\s.,]*(?:€|лв).*)/i);
                 if (priceMatch) {
-                    let extractedPrice = priceMatch[1].trim();
-                    
-                    // Разделяме, ако са залепени евро и левове (напр. "260€508,52лв" -> "260€ / 508,52лв")
-                    extractedPrice = extractedPrice.replace(/(\d[\d.,]*\s*€)\s*(\d[\d.,]*\s*лв\.?)/i, '$1 / $2');
-                    
-                    // Взимаме само първата част, ако има тире накрая (напр. "... - 470€")
-                    price = extractedPrice.split('-')[0].trim();
+                    price = priceMatch[1].split('-')[0].trim();
                 }
             }
         }
     }
-    // 4. Laptopremont.com - Извличане на цена от заглавието
+
     if (url.includes('laptopremont.com')) {
-        // Заглавието идва във формат: "Име на продукт : 2.60 €5.09 лв. : Онлайн магазин Laptop Remont"
         const lrMatch = title.match(/(.*?)\s*:\s*([\d.]+\s*€[\d.]+\s*лв\.)/i);
-
         if (lrMatch) {
-            // Отрязваме заглавието само до името на продукта
             title = lrMatch[1].trim(); 
-
-            // Спасяваме цената, ако скрейпърът не я е намерил
-            if (!price) {
-                let extractedPrice = lrMatch[2].trim();
-                // Слагаме интервал и наклонена черта между еврото и левовете, за да е четимо (напр. "2.60 € / 5.09 лв.")
-                price = extractedPrice.replace(/(€)([\d.]+)/, '$1 / $2');
-            }
+            if (!price) price = lrMatch[2].trim();
         } else {
-            // Като резервен вариант, просто трием суфикса на магазина, ако случайно няма цена
             title = title.replace(/\s*:\s*Онлайн магазин Laptop Remont/i, '').trim();
         }
     }
@@ -105,7 +127,7 @@ function formatItemData(it) {
         if (title.includes("— Цена:")) {
             const parts = title.split("— Цена:");
             title = parts[0].trim();
-            price = parts[1].trim().replace(/(€[0-9.]+)([0-9.]+лв\.)/, '$1 / $2');
+            if (!price) price = parts[1].trim();
         }
     }
 
@@ -118,10 +140,10 @@ function formatItemData(it) {
         }
     }
 
-    // Връщаме изчистените данни
-    return { displayTitle: title, displayPrice: price };
-}
+    const displayPrice = normalizeToEuro(price);
 
+    return { displayTitle: title, displayPrice };
+}
 
 function render(data) {
     const total = data.results.reduce((n, s) => n + s.items.length, 0);
@@ -129,7 +151,6 @@ function render(data) {
         `Готово: <b>${total}</b> резултата` +
         (data.cached ? " · от кеша (мигновено)" : ` · ${data.total_seconds}s`);
 
-    // сайтовете с най-много резултати — най-отгоре
     const sorted = [...data.results].sort((a, b) => b.items.length - a.items.length);
     const frag = document.createDocumentFragment();
 
@@ -161,18 +182,16 @@ function render(data) {
                 a.target = "_blank";
                 a.rel = "noopener";
 
-                // ИЗВИКВАМЕ функцията тук за всеки отделен продукт (it)
                 const { displayTitle, displayPrice } = formatItemData(it);
 
-                // Използваме вече ИЗЧИСТЕНИТЕ променливи displayPrice и displayTitle
                 const priceBadge = displayPrice 
                     ? `<span class="price-badge">${esc(displayPrice)}</span>` 
                     : '';
 
                 a.innerHTML = `
                     <div class="item-info">
-                    <span class="item-title">${esc(displayTitle)}</span>
-                    <span class="u">${esc(it.url)}</span>
+                        <span class="item-title">${esc(displayTitle)}</span>
+                        <span class="u">${esc(it.url)}</span>
                     </div>
                     ${priceBadge}
                 `;
