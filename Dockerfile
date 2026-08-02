@@ -1,8 +1,13 @@
-FROM python:3.12-slim
+FROM mcr.microsoft.com/playwright/python:v1.40.0-jammy
+
 WORKDIR /app
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-COPY app.py .
-COPY static ./static
+
+RUN playwright install chromium
+
+COPY . .
+
 EXPOSE 8090
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8090"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
