@@ -81,6 +81,20 @@ function normalizeToEuro(priceStr) {
     return str;
 }
 
+/**
+ * Extracts a numeric value from a formatted price string like "11.50 €".
+ * Items with missing/invalid prices return Infinity to sit at the end of sorted lists.
+ */
+function getNumericEuro(priceStr) {
+    if (!priceStr) return Infinity;
+    const match = priceStr.match(/(\d+[\.,]?\d*)/);
+    if (match) {
+        const val = parseFloat(match[0].replace(',', '.'));
+        return isNaN(val) || val <= 0 ? Infinity : val;
+    }
+    return Infinity;
+}
+
 function formatItemData(it) {
     let title = it.title || "";
     let price = (it.price && it.price !== "N/A") ? it.price : "";
@@ -141,8 +155,9 @@ function formatItemData(it) {
     }
 
     const displayPrice = normalizeToEuro(price);
+    const numericPrice = getNumericEuro(displayPrice);
 
-    return { displayTitle: title, displayPrice };
+    return { displayTitle: title, displayPrice, numericPrice };
 }
 
 function render(data) {
@@ -151,7 +166,25 @@ function render(data) {
         `Готово: <b>${total}</b> резултата` +
         (data.cached ? " · от кеша (мигновено)" : ` · ${data.total_seconds}s`);
 
-    const sorted = [...data.results].sort((a, b) => b.items.length - a.items.length);
+    // Process items and attach computed price metrics
+    for (const s of data.results) {
+        for (const it of s.items) {
+            const formatted = formatItemData(it);
+            it._displayTitle = formatted.displayTitle;
+            it._displayPrice = formatted.displayPrice;
+            it._numericPrice = formatted.numericPrice;
+        }
+
+        // Sort items inside each site card: lowest price -> highest price
+        s.items.sort((a, b) => a._numericPrice - b._numericPrice);
+
+        // Record site minimum price for site-card ordering
+        s._minPrice = s.items.length > 0 ? s.items[0]._numericPrice : Infinity;
+    }
+
+    // Sort site cards by their lowest available price
+    const sorted = [...data.results].sort((a, b) => a._minPrice - b._minPrice);
+
     const frag = document.createDocumentFragment();
 
     for (const s of sorted) {
@@ -182,15 +215,13 @@ function render(data) {
                 a.target = "_blank";
                 a.rel = "noopener";
 
-                const { displayTitle, displayPrice } = formatItemData(it);
-
-                const priceBadge = displayPrice 
-                    ? `<span class="price-badge">${esc(displayPrice)}</span>` 
+                const priceBadge = it._displayPrice 
+                    ? `<span class="price-badge">${esc(it._displayPrice)}</span>` 
                     : '';
 
                 a.innerHTML = `
                     <div class="item-info">
-                        <span class="item-title">${esc(displayTitle)}</span>
+                        <span class="item-title">${esc(it._displayTitle)}</span>
                         <span class="u">${esc(it.url)}</span>
                     </div>
                     ${priceBadge}

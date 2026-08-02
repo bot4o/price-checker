@@ -2274,3 +2274,61 @@
 2026-08-02 13:17:37.57 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (2302ms)
 2026-08-02 13:17:39.40 | WARNING | PARSER   | [PhoneZona] 0 items found in 1821ms!
 2026-08-02 13:17:39.40 | WARNING | PARSER   | [PhoneZona] 0 items found in 1821ms!
+2026-08-02 13:17:51.15 | WARNING | NETWORK  | [MobileSentrix EU] Selector timeout, applying 2s fallback delay...
+2026-08-02 13:17:53.76 | WARNING | PARSER   | [MobileSentrix EU] 0 items found in 342ms!
+2026-08-02 13:17:53.76 | WARNING | PARSER   | [MobileSentrix EU] 0 items found in 342ms!
+2026-08-02 13:17:53.77 | INFO    | PARSER   | [MobileSentrix EU] HTML dumped to mobilesentrix_eu_debug.html
+2026-08-02 13:17:53.77 | SUCCESS | API      | SEARCH COMPLETED -> Found 2 items across all sites in 18.54s
+2026-08-02 13:21:26.25 | SUCCESS | API      | CACHE HIT -> Return instant results for 'IPhone 13' (phone)
+2026-08-02 13:21:33.22 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13 display'
+2026-08-02 13:21:33.22 | INFO    | SYSTEM   | Launching concurent search across 8 'phone' sites for: 'IPhone 13 display'
+2026-08-02 13:21:33.25 | INFO    | NETWORK  | [MobileSentrix EU] Launching Playwright to render search results...
+2026-08-02 13:21:33.26 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-08-02 13:21:33.68 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (422ms)
+2026-08-02 13:21:33.72 | WARNING | PARSER   | [Smenime] 0 items found in 36ms!
+2026-08-02 13:21:33.72 | WARNING | PARSER   | [Smenime] 0 items found in 36ms!
+2026-08-02 13:21:33.72 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (471ms)
+2026-08-02 13:21:33.79 | WARNING | PARSER   | [Cellphone BG] 0 items found in 63ms!
+2026-08-02 13:21:33.79 | WARNING | PARSER   | [Cellphone BG] 0 items found in 63ms!
+2026-08-02 13:21:34.13 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (879ms)
+2026-08-02 13:21:34.22 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (958ms)
+2026-08-02 13:21:34.55 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1293ms)
+2026-08-02 13:21:34.80 | WARNING | PARSER   | [Alpha Mobile] 0 items found in 240ms!
+2026-08-02 13:21:34.80 | WARNING | PARSER   | [Alpha Mobile] 0 items found in 240ms!
+2026-08-02 13:21:34.83 | WARNING | PARSER   | [GagoGSM] 0 items found in 692ms!
+2026-08-02 13:21:34.83 | WARNING | PARSER   | [GagoGSM] 0 items found in 692ms!
+2026-08-02 13:21:35.13 | WARNING | PARSER   | [MasterClub] 0 items found in 286ms!
+2026-08-02 13:21:35.14 | WARNING | PARSER   | [MasterClub] 0 items found in 286ms!
+2026-08-02 13:21:35.36 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (2102ms)
+2026-08-02 13:21:35.91 | WARNING | PARSER   | [Siaifon] 0 items found in 1664ms!
+2026-08-02 13:21:35.91 | WARNING | PARSER   | [Siaifon] 0 items found in 1664ms!
+2026-08-02 13:21:37.17 | WARNING | PARSER   | [PhoneZona] 0 items found in 1795ms!
+2026-08-02 13:21:37.17 | WARNING | PARSER   | [PhoneZona] 0 items found in 1795ms!
+2026-08-02 13:21:49.30 | WARNING | NETWORK  | [MobileSentrix EU] Selector timeout, applying 2s fallback delay...
+2026-08-02 13:21:51.98 | INFO    | PARSER   | [MobileSentrix EU] Extracted 24 items in 386ms
+2026-08-02 13:21:51.98 | SUCCESS | API      | SEARCH COMPLETED -> Found 24 items across all sites in 18.77s
+2026-08-02 13:22:08.00 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13 дисплей'
+2026-08-02 13:22:08.00 | INFO    | SYSTEM   | Launching concurent search across 8 'phone' sites for: 'IPhone 13 дисплей'
+2026-08-02 13:22:08.04 | INFO    | NETWORK  | [MobileSentrix EU] Launching Playwright to render search results...
+2026-08-02 13:22:08.05 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-08-02 13:22:08.47 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (419ms)
+2026-08-02 13:22:08.50 | WARNING | PARSER   | [Smenime] 0 items found in 31ms!
+2026-08-02 13:22:08.50 | WARNING | PARSER   | [Smenime] 0 items found in 31ms!
+2026-08-02 13:22:08.53 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (490ms)
+2026-08-02 13:22:08.84 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (790ms)
+2026-08-02 13:22:10.16 | INFO    | PARSER   | [GagoGSM] Extracted 5 items in 1299ms
+2026-08-02 13:22:10.32 | INFO    | PARSER   | [Cellphone BG] Extracted 18 items in 1780ms
+2026-08-02 13:22:10.33 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (2271ms)
+2026-08-02 13:22:10.34 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (2289ms)
+2026-08-02 13:22:11.11 | INFO    | PARSER   | [Alpha Mobile] Extracted 50 items in 777ms
+2026-08-02 13:22:11.35 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (3300ms)
+2026-08-02 13:22:12.35 | INFO    | PARSER   | [Siaifon] Extracted 2 items in 2006ms
+2026-08-02 13:22:12.45 | INFO    | PARSER   | [MasterClub] Extracted 17 items in 1126ms
+2026-08-02 13:22:13.62 | WARNING | PARSER   | [PhoneZona] 0 items found in 2243ms!
+2026-08-02 13:22:13.62 | WARNING | PARSER   | [PhoneZona] 0 items found in 2243ms!
+2026-08-02 13:22:24.67 | WARNING | NETWORK  | [MobileSentrix EU] Selector timeout, applying 2s fallback delay...
+2026-08-02 13:22:27.11 | WARNING | PARSER   | [MobileSentrix EU] 0 items found in 231ms!
+2026-08-02 13:22:27.11 | WARNING | PARSER   | [MobileSentrix EU] 0 items found in 231ms!
+2026-08-02 13:22:27.11 | INFO    | PARSER   | [MobileSentrix EU] HTML dumped to mobilesentrix_eu_debug.html
+2026-08-02 13:22:27.11 | SUCCESS | API      | SEARCH COMPLETED -> Found 92 items across all sites in 19.12s
+2026-08-02 13:23:01.39 | SUCCESS | API      | CACHE HIT -> Return instant results for 'IPhone 13 display' (phone)
