@@ -2058,3 +2058,25 @@
 2026-08-02 12:43:10.71 | WARNING | NETWORK  | [LaptopRemont] SuperJS is taking longer... waiting extra 3 seconds.
 2026-08-02 12:43:14.06 | INFO    | PARSER   | [LaptopRemont] Extracted 10 items in 152ms
 2026-08-02 12:43:14.06 | SUCCESS | API      | SEARCH COMPLETED -> Found 129 items across all sites in 5.56s
+2026-08-02 12:43:48.53 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:45:15.86 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:45:21.69 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'ThinkPad'
+2026-08-02 12:45:21.70 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'ThinkPad'
+2026-08-02 12:45:21.80 | INFO    | NETWORK  | [LaptopRemont] Launching Playwright to bypass SuperJS challenge...
+2026-08-02 12:45:22.20 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (393ms)
+2026-08-02 12:45:22.46 | INFO    | PARSER   | [Bazar] Extracted 68 items in 259ms
+2026-08-02 12:45:24.11 | INFO    | PARSER   | [OLX] Extracted 51 items in 279ms
+2026-08-02 12:45:28.96 | WARNING | NETWORK  | [LaptopRemont] SuperJS is taking longer... waiting extra 3 seconds.
+2026-08-02 12:45:32.28 | WARNING | PARSER   | [LaptopRemont] 0 items found in 137ms!
+2026-08-02 12:45:32.28 | SUCCESS | API      | SEARCH COMPLETED -> Found 119 items across all sites in 10.58s
+2026-08-02 12:46:42.75 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:46:44.60 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:47:11.96 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:47:16.28 | INFO    | API      | SEARCH REQUEST -> Category: 'pc', Query: 'ThinkPad'
+2026-08-02 12:47:16.28 | INFO    | SYSTEM   | Launching concurent search across 3 'pc' sites for: 'ThinkPad'
+2026-08-02 12:47:16.39 | INFO    | NETWORK  | [LaptopRemont] Launching Playwright to bypass SuperJS challenge...
+2026-08-02 12:47:16.76 | INFO    | NETWORK  | [Bazar] GET -> Status 200 OK (365ms)
+2026-08-02 12:47:17.07 | INFO    | PARSER   | [Bazar] Extracted 68 items in 301ms
+2026-08-02 12:47:18.37 | INFO    | PARSER   | [OLX] Extracted 51 items in 389ms
+2026-08-02 12:47:21.12 | INFO    | PARSER   | [LaptopRemont] Extracted 17 items in 165ms
+2026-08-02 12:47:21.12 | SUCCESS | API      | SEARCH COMPLETED -> Found 136 items across all sites in 4.84s

@@ -259,7 +259,7 @@ async def scrape_masterclub(client: httpx.AsyncClient, query: str) -> List[Dict[
     return results
 
 async def fetch_laptopremont_html(client: httpx.AsyncClient, query: str) -> str | None:
-    """Използва истински браузър (Playwright), за да премине през SuperJS защитата."""
+    """Използва Playwright с изчакване на DOM елементи след SuperJS защитата."""
     net_log = logger.bind(component="NETWORK")
     encoded_query = quote_plus(query.strip())
     url = f"https://www.laptopremont.com/advanced_search_result.php?search_in_description=1&inc_subcat=1&keywords={encoded_query}"
@@ -268,19 +268,32 @@ async def fetch_laptopremont_html(client: httpx.AsyncClient, query: str) -> str 
         net_log.info(f"[LaptopRemont] Launching Playwright to bypass SuperJS challenge...")
         
         async with async_playwright() as p:
-            # Стартираме невидим браузър
             browser = await p.chromium.launch(headless=True)
-            page = await browser.new_page()
             
-            # Зареждаме страницата и чакаме мрежата да се "успокои" (да минат JS редиректите)
-            await page.goto(url, wait_until="networkidle", timeout=15000)
+            # Pass a realistic User-Agent to pass SuperJS checks smoothly
+            context = await browser.new_context(
+                user_agent=(
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/126.0.0.0 Safari/537.36"
+                ),
+                viewport={"width": 1280, "height": 800}
+            )
+            page = await context.new_page()
             
-            # Взимаме заглавието, за да проверим дали сме минали защитата
-            title = await page.title()
-            if "SuperJS" in title:
-                net_log.warning("[LaptopRemont] SuperJS is taking longer... waiting extra 3 seconds.")
-                await asyncio.sleep(3)
-                
+            # Navigate and wait for DOM load
+            await page.goto(url, wait_until="domcontentloaded", timeout=20000)
+            
+            # Wait specifically for the search result table/links to appear in the DOM
+            try:
+                await page.wait_for_selector(
+                    "table, .productListing-data, a[href*='products_id='], a[href*='-p-']", 
+                    timeout=10000
+                )
+            except Exception:
+                net_log.warning("[LaptopRemont] Selector timeout, applying fallback 3s wait...")
+                await page.wait_for_timeout(3000)
+
             html = await page.content()
             await browser.close()
             
@@ -377,7 +390,7 @@ PC_SITES = [
     {
         "name": "LaptopRemont",
         "url": "https://www.laptopremont.com/advanced_search_result.php?search_in_description=1&inc_subcat=1&keywords=",
-        "selector": "a[href*='products_id='], .productListing-data a",
+        "selector": "a[href*='products_id='], a[href*='-p-'], .productListing-data a",
         "custom_fetch": fetch_laptopremont_html,
     },
     {
@@ -476,7 +489,6 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
     items = []
     seen = set()
 
-    # Specific filters for prices in different sites 
     site_price_tags = {
         "Siaifon": [".c-product-grid__product-price", ".price"],
         "Cellphone BG": [".price-new", ".price"],
@@ -488,29 +500,30 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
         "Bazar": ["span.price", ".price"]
     }
 
+    # List of generic button phrases to ignore as titles
+    IGNORED_TITLES = {"поръчай сега", "поръчай", "buy now", "купи", "виж повече", "-"}
+
     for link in soup.select(site["selector"]):
         href = link.get("href")
-        if not href:
+        if not href or "action=buy_now" in href:
             continue
 
         raw_title = link.get("title") or ""
         link_text = link.get_text(strip=True)
 
         # 1. Clean Title Extraction
-        if raw_title.strip() and raw_title.strip() != "-":
+        if raw_title.strip() and raw_title.strip().lower() not in IGNORED_TITLES:
             clean_title = raw_title.strip()
-        elif link_text and link_text.strip() != "-":
+        elif link_text and link_text.strip().lower() not in IGNORED_TITLES:
             clean_title = " ".join(link_text.split())
         else:
-            # Fallback to image alt text if link wraps an image
             img_elem = link.select_one("img")
             clean_title = img_elem.get("alt", "").strip() if img_elem else ""
 
-        # Strip leading/trailing dashes and whitespace
         clean_title = clean_title.lstrip("- ").rstrip("- ").strip()
 
-        # Skip links that have no meaningful product title
-        if not clean_title:
+        # Skip invalid or button-text titles
+        if not clean_title or clean_title.lower() in IGNORED_TITLES:
             continue
 
         haystack = clean_title.lower()
@@ -526,11 +539,10 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
 
         detected_price = ""
 
-        # 3. Targeted Price Extraction
+        # 3. Price Extraction
         price_tags = site_price_tags.get(site["name"], [".price", ".price-new"])
         current_parent = link
 
-        # Climb up to 7 levels up the DOM tree to locate the price
         for _ in range(7):
             current_parent = current_parent.parent
             if not current_parent or current_parent.name == "[document]":
@@ -545,18 +557,26 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
                     if found_price_text:
                         break
 
-            # Fallback regex for LaptopRemont table rows
+            # LaptopRemont table row fallback
             if not found_price_text and site["name"] == "LaptopRemont" and current_parent.name == "tr":
                 row_text = current_parent.get_text(separator=" ", strip=True)
-                price_match = re.search(r'([\d.,]+)\s*лв', row_text, re.IGNORECASE)
+                price_match = re.search(r'([\d.,]+\s*€?\s*[\d.,]+\s*лв\.?)', row_text, re.IGNORECASE)
                 if price_match:
-                    found_price_text = price_match.group(1).strip() + " лв."
+                    found_price_text = price_match.group(1).strip()
 
             if found_price_text:
                 detected_price = found_price_text
                 break
 
-        # 4. Append item with separated 'title' and 'price'
+        # 4. Price Cleanup / Formatting (e.g. 1.50€2.93лв. -> 2.93 лв. / 1.50 €)
+        if detected_price:
+            # Fix smashed EUR and BGN values
+            smashed_match = re.search(r'([\d.,]+)\s*€\s*([\d.,]+)\s*лв\.?', detected_price, re.IGNORECASE)
+            if smashed_match:
+                eur, bgn = smashed_match.group(1), smashed_match.group(2)
+                detected_price = f"{bgn} лв. / {eur} €"
+
+        # 5. Append structured item
         items.append({
             "title": clean_title,
             "url": full_url,
@@ -565,18 +585,16 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
 
     elapsed_ms = round((time.perf_counter() - start_time) * 1000)
 
-    # Logging & Anomaly warnings
+    # Logging
     parser_log = logger.bind(component="PARSER")
     if not items:
-        parser_log.warning(f"[{site['name']}] 0 items found in {elapsed_ms}ms! (CSS selector '{site['selector']}' broken or empty query)")
-
+        parser_log.warning(f"[{site['name']}] 0 items found in {elapsed_ms}ms!")
         if site["name"] == "LaptopRemont":
             try:
                 with open("laptopremont_debug.html", "w", encoding="utf-8") as f:
                     f.write(html)
-                parser_log.info(f"[{site['name']}] HTML dumped to laptopremont_debug.html")
-            except Exception as e:
-                parser_log.error(f"Failed to dump HTML: {e}")
+            except Exception:
+                pass
     else:
         parser_log.info(f"[{site['name']}] Extracted {len(items)} items in {elapsed_ms}ms")
 
