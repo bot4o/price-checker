@@ -2080,3 +2080,144 @@
 2026-08-02 12:47:18.37 | INFO    | PARSER   | [OLX] Extracted 51 items in 389ms
 2026-08-02 12:47:21.12 | INFO    | PARSER   | [LaptopRemont] Extracted 17 items in 165ms
 2026-08-02 12:47:21.12 | SUCCESS | API      | SEARCH COMPLETED -> Found 136 items across all sites in 4.84s
+2026-08-02 12:47:37.70 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:50:35.26 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:50:43.57 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'Iphone 13'
+2026-08-02 12:50:43.57 | INFO    | SYSTEM   | Launching concurent search across 8 'phone' sites for: 'Iphone 13'
+2026-08-02 12:50:43.70 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-08-02 12:50:44.31 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (617ms)
+2026-08-02 12:50:44.42 | INFO    | PARSER   | [Smenime] Extracted 4 items in 104ms
+2026-08-02 12:50:44.50 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (805ms)
+2026-08-02 12:50:45.27 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1582ms)
+2026-08-02 12:50:45.30 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (1608ms)
+2026-08-02 12:50:46.00 | INFO    | PARSER   | [Alpha Mobile] Extracted 50 items in 729ms
+2026-08-02 12:50:47.25 | INFO    | PARSER   | [GagoGSM] Extracted 28 items in 2749ms
+2026-08-02 12:50:47.28 | INFO    | PARSER   | [Cellphone BG] Extracted 19 items in 1976ms
+2026-08-02 12:50:47.31 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (3613ms)
+2026-08-02 12:50:47.75 | INFO    | PARSER   | [MasterClub] Extracted 20 items in 1677ms
+2026-08-02 12:50:47.89 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (4195ms)
+2026-08-02 12:50:49.33 | INFO    | PARSER   | [Siaifon] Extracted 60 items in 2008ms
+2026-08-02 12:50:50.10 | INFO    | PARSER   | [PhoneZona] Extracted 15 items in 2206ms
+2026-08-02 12:50:52.52 | INFO    | NETWORK  | [MobileSentrix EU] GET -> Status 200 OK (8837ms)
+2026-08-02 12:50:54.32 | WARNING | PARSER   | [MobileSentrix EU] 0 items found in 1790ms!
+2026-08-02 12:50:54.32 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 10.75s
+2026-08-02 12:52:29.04 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:54:07.28 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:54:08.74 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:54:10.63 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:54:17.37 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13'
+2026-08-02 12:54:17.37 | INFO    | SYSTEM   | Launching concurent search across 8 'phone' sites for: 'IPhone 13'
+2026-08-02 12:54:17.49 | INFO    | NETWORK  | [MobileSentrix EU] Launching Playwright to render Searchanise results...
+2026-08-02 12:54:17.50 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-08-02 12:54:17.87 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (379ms)
+2026-08-02 12:54:17.98 | INFO    | PARSER   | [Smenime] Extracted 4 items in 106ms
+2026-08-02 12:54:18.40 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (904ms)
+2026-08-02 12:54:18.53 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1026ms)
+2026-08-02 12:54:18.63 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (1146ms)
+2026-08-02 12:54:20.44 | INFO    | PARSER   | [Cellphone BG] Extracted 19 items in 1798ms
+2026-08-02 12:54:20.86 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (3373ms)
+2026-08-02 12:54:21.86 | INFO    | PARSER   | [MasterClub] Extracted 20 items in 1132ms
+2026-08-02 12:54:22.33 | INFO    | PARSER   | [GagoGSM] Extracted 28 items in 3923ms
+2026-08-02 12:54:22.56 | INFO    | PARSER   | [Siaifon] Extracted 60 items in 4017ms
+2026-08-02 12:54:22.56 | INFO    | PARSER   | [Alpha Mobile] Extracted 50 items in 1606ms
+2026-08-02 12:54:22.57 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (5078ms)
+2026-08-02 12:54:24.15 | INFO    | PARSER   | [PhoneZona] Extracted 15 items in 1571ms
+2026-08-02 12:54:40.16 | WARNING | NETWORK  | [MobileSentrix EU] Selector timeout, applying 3s fallback delay...
+2026-08-02 12:54:43.89 | WARNING | PARSER   | [MobileSentrix EU] 0 items found in 437ms!
+2026-08-02 12:54:43.89 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 26.52s
+2026-08-02 12:57:02.88 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:57:11.55 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13'
+2026-08-02 12:57:11.55 | INFO    | SYSTEM   | Launching concurent search across 8 'phone' sites for: 'IPhone 13'
+2026-08-02 12:57:11.67 | INFO    | NETWORK  | [MobileSentrix EU] Launching Playwright to render search results...
+2026-08-02 12:57:11.68 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-08-02 12:57:12.14 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (468ms)
+2026-08-02 12:57:12.23 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (552ms)
+2026-08-02 12:57:12.61 | INFO    | PARSER   | [Smenime] Extracted 4 items in 364ms
+2026-08-02 12:57:13.53 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (1853ms)
+2026-08-02 12:57:13.54 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1859ms)
+2026-08-02 12:57:13.70 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (2017ms)
+2026-08-02 12:57:13.77 | INFO    | PARSER   | [Cellphone BG] Extracted 19 items in 1623ms
+2026-08-02 12:57:14.25 | INFO    | PARSER   | [Alpha Mobile] Extracted 50 items in 697ms
+2026-08-02 12:57:16.57 | INFO    | PARSER   | [Siaifon] Extracted 60 items in 2848ms
+2026-08-02 12:57:16.84 | INFO    | PARSER   | [MasterClub] Extracted 20 items in 1390ms
+2026-08-02 12:57:16.86 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (5184ms)
+2026-08-02 12:57:16.96 | INFO    | PARSER   | [GagoGSM] Extracted 28 items in 3423ms
+2026-08-02 12:57:18.38 | INFO    | PARSER   | [PhoneZona] Extracted 15 items in 1497ms
+2026-08-02 12:57:23.40 | WARNING | PARSER   | [MobileSentrix EU] 0 items found in 311ms!
+2026-08-02 12:57:23.40 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 11.85s
+2026-08-02 12:58:16.27 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:58:18.86 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:59:30.30 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 12:59:33.34 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13'
+2026-08-02 12:59:33.34 | INFO    | SYSTEM   | Launching concurent search across 8 'phone' sites for: 'IPhone 13'
+2026-08-02 12:59:33.44 | INFO    | NETWORK  | [MobileSentrix EU] Launching Playwright to render search results...
+2026-08-02 12:59:33.44 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-08-02 12:59:33.86 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (426ms)
+2026-08-02 12:59:33.96 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (515ms)
+2026-08-02 12:59:34.17 | INFO    | PARSER   | [Smenime] Extracted 4 items in 199ms
+2026-08-02 12:59:35.09 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (1647ms)
+2026-08-02 12:59:35.60 | INFO    | PARSER   | [Cellphone BG] Extracted 19 items in 1733ms
+2026-08-02 12:59:35.60 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (2156ms)
+2026-08-02 12:59:35.84 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (2400ms)
+2026-08-02 12:59:36.86 | INFO    | PARSER   | [Alpha Mobile] Extracted 50 items in 1008ms
+2026-08-02 12:59:37.44 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (3993ms)
+2026-08-02 12:59:38.43 | INFO    | PARSER   | [MasterClub] Extracted 20 items in 1190ms
+2026-08-02 12:59:39.78 | INFO    | PARSER   | [Siaifon] Extracted 60 items in 4151ms
+2026-08-02 12:59:39.83 | INFO    | PARSER   | [GagoGSM] Extracted 28 items in 4727ms
+2026-08-02 12:59:40.84 | INFO    | PARSER   | [PhoneZona] Extracted 15 items in 3373ms
+2026-08-02 12:59:46.71 | WARNING | PARSER   | [MobileSentrix EU] 0 items found in 325ms!
+2026-08-02 12:59:46.71 | WARNING | PARSER   | [MobileSentrix EU] 0 items found in 325ms!
+2026-08-02 12:59:46.71 | INFO    | PARSER   | [MobileSentrix EU] HTML dumped to mobilesentrix_eu_debug.html
+2026-08-02 12:59:46.72 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 13.38s
+2026-08-02 13:01:15.49 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 13:01:28.19 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 13:01:43.56 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 13:01:45.80 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 13:01:54.44 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13'
+2026-08-02 13:01:54.44 | INFO    | SYSTEM   | Launching concurent search across 8 'phone' sites for: 'IPhone 13'
+2026-08-02 13:01:54.54 | INFO    | NETWORK  | [MobileSentrix EU] Launching Playwright to render search results...
+2026-08-02 13:01:54.54 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-08-02 13:01:54.89 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (357ms)
+2026-08-02 13:01:55.21 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (667ms)
+2026-08-02 13:01:55.50 | INFO    | PARSER   | [Smenime] Extracted 4 items in 276ms
+2026-08-02 13:01:56.25 | INFO    | PARSER   | [Cellphone BG] Extracted 19 items in 1357ms
+2026-08-02 13:01:56.26 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1719ms)
+2026-08-02 13:01:56.44 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1898ms)
+2026-08-02 13:01:56.64 | INFO    | PARSER   | [Alpha Mobile] Extracted 50 items in 383ms
+2026-08-02 13:01:57.07 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (2526ms)
+2026-08-02 13:01:57.92 | INFO    | PARSER   | [MasterClub] Extracted 20 items in 1043ms
+2026-08-02 13:01:59.18 | INFO    | PARSER   | [Siaifon] Extracted 60 items in 2728ms
+2026-08-02 13:01:59.95 | INFO    | PARSER   | [PhoneZona] Extracted 15 items in 2864ms
+2026-08-02 13:02:06.15 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (11609ms)
+2026-08-02 13:02:07.74 | INFO    | PARSER   | [GagoGSM] Extracted 28 items in 1593ms
+2026-08-02 13:02:11.20 | WARNING | NETWORK  | [MobileSentrix EU] Selector timeout, applying 2s fallback delay...
+2026-08-02 13:02:13.84 | WARNING | PARSER   | [MobileSentrix EU] 0 items found in 379ms!
+2026-08-02 13:02:13.84 | WARNING | PARSER   | [MobileSentrix EU] 0 items found in 379ms!
+2026-08-02 13:02:13.85 | INFO    | PARSER   | [MobileSentrix EU] HTML dumped to mobilesentrix_eu_debug.html
+2026-08-02 13:02:13.85 | SUCCESS | API      | SEARCH COMPLETED -> Found 196 items across all sites in 19.41s
+2026-08-02 13:06:30.46 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 13:06:32.22 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 13:06:44.98 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 13:06:59.54 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 13:07:03.98 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!
+2026-08-02 13:07:06.51 | INFO    | API      | SEARCH REQUEST -> Category: 'phone', Query: 'IPhone 13'
+2026-08-02 13:07:06.52 | INFO    | SYSTEM   | Launching concurent search across 8 'phone' sites for: 'IPhone 13'
+2026-08-02 13:07:06.62 | INFO    | NETWORK  | [MobileSentrix EU] Launching Playwright to render search results...
+2026-08-02 13:07:06.63 | INFO    | NETWORK  | [MasterClub] Fetching homepage for fresh session & security_hash...
+2026-08-02 13:07:06.95 | INFO    | NETWORK  | [Cellphone BG] GET -> Status 200 OK (329ms)
+2026-08-02 13:07:07.28 | INFO    | NETWORK  | [Smenime] GET -> Status 200 OK (658ms)
+2026-08-02 13:07:07.53 | INFO    | PARSER   | [Smenime] Extracted 4 items in 237ms
+2026-08-02 13:07:08.36 | INFO    | NETWORK  | [GagoGSM] GET -> Status 200 OK (1733ms)
+2026-08-02 13:07:08.42 | INFO    | PARSER   | [Cellphone BG] Extracted 19 items in 1473ms
+2026-08-02 13:07:08.51 | INFO    | NETWORK  | [Siaifon] GET -> Status 200 OK (1887ms)
+2026-08-02 13:07:08.53 | INFO    | NETWORK  | [Alpha Mobile] GET -> Status 200 OK (1906ms)
+2026-08-02 13:07:09.36 | INFO    | PARSER   | [Alpha Mobile] Extracted 50 items in 790ms
+2026-08-02 13:07:10.94 | INFO    | PARSER   | [MasterClub] Extracted 20 items in 1050ms
+2026-08-02 13:07:11.05 | INFO    | NETWORK  | [PhoneZona] GET -> Status 200 OK (4428ms)
+2026-08-02 13:07:12.10 | INFO    | PARSER   | [Siaifon] Extracted 60 items in 3572ms
+2026-08-02 13:07:12.23 | INFO    | PARSER   | [GagoGSM] Extracted 28 items in 3864ms
+2026-08-02 13:07:13.33 | INFO    | PARSER   | [PhoneZona] Extracted 15 items in 2267ms
+2026-08-02 13:07:25.59 | WARNING | NETWORK  | [MobileSentrix EU] Selector timeout, applying 2s fallback delay...
+2026-08-02 13:07:28.21 | INFO    | PARSER   | [MobileSentrix EU] Extracted 42 items in 362ms
+2026-08-02 13:07:28.21 | SUCCESS | API      | SEARCH COMPLETED -> Found 238 items across all sites in 21.7s
+2026-08-02 13:07:53.91 | SUCCESS | SYSTEM   | AKS Price Checker server booted up and ready for requests!

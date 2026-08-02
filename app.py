@@ -14,6 +14,56 @@ from loguru import logger
 from typing import List, Dict, Any
 from playwright.async_api import async_playwright
 
+async def fetch_mobilesentrix_html(client: httpx.AsyncClient, query: str) -> str | None:
+    """Fast Playwright fetcher targeting MobileSentrix catalog DOM."""
+    net_log = logger.bind(component="NETWORK")
+    encoded_query = quote_plus(query.strip())
+    url = f"https://www.mobilesentrix.eu/catalogsearch/result/?q={encoded_query}"
+
+    try:
+        net_log.info("[MobileSentrix EU] Launching Playwright to render search results...")
+        
+        async with async_playwright() as p:
+            browser = await p.chromium.launch(headless=True)
+            context = await browser.new_context(
+                user_agent=(
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/126.0.0.0 Safari/537.36"
+                ),
+                viewport={"width": 1280, "height": 800}
+            )
+            
+            # Block non-essential heavy resources
+            await context.route(
+                "**/*",
+                lambda route, request: route.abort()
+                if request.resource_type in ["image", "media", "font"]
+                or "analytics" in request.url
+                or "facebook" in request.url
+                or "google-analytics" in request.url
+                else route.continue_()
+            )
+
+            page = await context.new_page()
+            
+            await page.goto(url, wait_until="domcontentloaded", timeout=15000)
+            
+            # Wait for the catalog grid container to render in DOM
+            try:
+                await page.wait_for_selector("#catalog-listing, li.item, a.product-image", timeout=8000)
+            except Exception:
+                net_log.warning("[MobileSentrix EU] Selector timeout, applying 2s fallback delay...")
+                await page.wait_for_timeout(2000)
+
+            html = await page.content()
+            await browser.close()
+            
+            return html
+
+    except Exception as e:
+        net_log.error(f"[MobileSentrix EU] Playwright fetch error: {str(e)}")
+        return None
 
 OLX_HEADERS = {
     "User-Agent": (
@@ -407,7 +457,12 @@ PC_SITES = [
 ]
 
 PHONE_SITES = [
-
+    {
+        "name": "MobileSentrix EU",
+        "url": "https://www.mobilesentrix.eu/catalogsearch/result/?q=",
+        "selector": "li.item a.product-image, .product-name",
+        "custom_fetch": fetch_mobilesentrix_html,
+    },
     #OpenCart
     {
         "name": "Cellphone BG",
@@ -497,7 +552,14 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
         "PhoneZona": [".price-new", ".price"],
         "MasterClub": [".ty-price", ".price"],
         "OLX": ["[data-testid='ad-price']", ".css-19346ff", ".price"],
-        "Bazar": ["span.price", ".price"]
+        "Bazar": ["span.price", ".price"],
+        "MobileSentrix EU": [
+            ".price-info-span",
+            ".regular-price",
+            ".price-box-inner",
+            ".price-box",
+            ".price"
+        ],
     }
 
     # List of generic button phrases to ignore as titles
@@ -598,7 +660,20 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
     else:
         parser_log.info(f"[{site['name']}] Extracted {len(items)} items in {elapsed_ms}ms")
 
+    if not items:
+        parser_log.warning(f"[{site['name']}] 0 items found in {elapsed_ms}ms!")
+
+        if site["name"] in ["LaptopRemont", "MobileSentrix EU"]:
+            filename = f"{site['name'].lower().replace(' ', '_')}_debug.html"
+            try:
+                with open(filename, "w", encoding="utf-8") as f:
+                    f.write(html)
+                parser_log.info(f"[{site['name']}] HTML dumped to {filename}")
+            except Exception as e:
+                parser_log.error(f"Failed to dump HTML: {e}")
+
     return items
+
 
 async def fetch_with_retry(client: httpx.AsyncClient, url: str, site_name: str) -> httpx.Response | None:
     net_log = logger.bind(component="NETWORK")
