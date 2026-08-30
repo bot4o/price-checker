@@ -82,7 +82,7 @@ async def fetch_olx_html(client: httpx.AsyncClient, query: str) -> str | None:
     search_url = f"https://www.olx.bg/list/q-{formatted_query}/"
 
     try:
-        # follow_redirects=True е КРИТИЧНО за OLX
+        # follow_redirects=True - important for OLX
         response = await client.get(
             search_url, 
             headers=OLX_HEADERS, 
@@ -106,7 +106,7 @@ def parse_olx_html(html: str, query: str) -> list[dict]:
     soup = BeautifulSoup(html, "html.parser")
     search_terms = query.lower().split()
 
-    # СТРАТЕГИЯ 1: Парсване през data-cy / data-testid атрибути
+    # Parsing with data-cy / data-testid attributes
     cards = soup.select('div[data-cy="l-card"], div[data-testid="l-card"]')
 
     for card in cards:
@@ -120,13 +120,13 @@ def parse_olx_html(html: str, query: str) -> list[dict]:
         if not title or not href or not isinstance(href, str):
             continue
 
-        # Филтър за думите в търсенето
+        # Filter for search
         if not all(term in title.lower() for term in search_terms):
             continue
 
         full_url = urljoin("https://www.olx.bg", href)
 
-        # Извличане на цената
+        # Extracting price 
         price = "N/A"
         price_elem = card.select_one('p[data-testid="ad-price"], [data-cy="ad-price"]')
         if price_elem:
@@ -139,7 +139,7 @@ def parse_olx_html(html: str, query: str) -> list[dict]:
             "price": price,
         })
 
-    # СТРАТЕГИЯ 2: Fallback през __NEXT_DATA__ JSON
+    # Fallback trough __NEXT_DATA__ JSON
     if not results:
         next_data_script = soup.find("script", id="__NEXT_DATA__")
         if next_data_script and next_data_script.string:
@@ -197,11 +197,11 @@ async def scrape_olx(client: httpx.AsyncClient, query: str) -> list[dict]:
         soup = BeautifulSoup(response.text, "html.parser")
         search_terms = query.lower().split()
 
-        # Намираме контейнерите на обявите
+        # Finding containers in articles 
         cards = soup.select('div[data-cy="l-card"], div[data-testid="l-card"]')
 
         for card in cards:
-            # Намираме <a> тага за заглавието
+            # Finding <a> in title
             link_elem = card.select_one(
                 'a[data-cy="listing-ad-title"], a[href*="/d/ad/"], a[href*="/ad/"]'
             )
@@ -214,13 +214,13 @@ async def scrape_olx(client: httpx.AsyncClient, query: str) -> list[dict]:
             if not title or not href or not isinstance(href, str):
                 continue
 
-            # Филтър по думите в търсенето
+            # Filter by words in search 
             if not all(term in title.lower() for term in search_terms):
                 continue
 
             full_url = urljoin("https://www.olx.bg", href)
 
-            # Намираме цената вътре в същата картичка
+            # Finding price in the same element 
             price = "N/A"
             price_elem = card.select_one(
                 'p[data-testid="ad-price"], [data-cy="ad-price"]'
@@ -251,10 +251,10 @@ async def scrape_masterclub(client: httpx.AsyncClient, query: str) -> List[Dict[
     base_url = "https://masterclub.info/"
 
     try:
-        # Step 1: Establish session cookie by visiting the homepage
+        # Establish session cookie by visiting the homepage
         await client.get(base_url, timeout=10.0)
 
-        # Step 2: Construct search URL with CS-Cart flags
+        # Construct search URL with CS-Cart flags
         encoded_query = quote_plus(query)
         search_url = (
             f"{base_url}?match=all&subcats=Y&pcode_from_q=Y"
@@ -262,12 +262,12 @@ async def scrape_masterclub(client: httpx.AsyncClient, query: str) -> List[Dict[
                 f"&q={encoded_query}&dispatch=products.search"
         )
 
-        # Step 3: Fetch search results
+        # Fetch search results
         response = await client.get(search_url, timeout=10.0)
         if response.status_code != 200:
             return results
 
-        # Step 4: Parse response HTML
+        # Parse response HTML
         soup = BeautifulSoup(response.text, "html.parser")
         product_links = soup.select("a.product-title")
         search_terms = query.lower().split()
@@ -276,11 +276,11 @@ async def scrape_masterclub(client: httpx.AsyncClient, query: str) -> List[Dict[
             title = link.get_text(strip=True)
             href = link.get("href")
 
-            # Type safety check for Pyright/Pylance
+            # Safety check
             if not href or not isinstance(href, str):
                 continue
 
-            # Secondary filter: Ensure all search terms appear in the title
+            # Ensure all search terms appear in the title
             if not all(term in title.lower() for term in search_terms):
                 continue
 
@@ -303,7 +303,7 @@ async def scrape_masterclub(client: httpx.AsyncClient, query: str) -> List[Dict[
             })
 
     except Exception as e:
-        # Keeps MasterClub failures isolated from failing other scrapers
+        # Keeps MasterClub failures isolated from other scrapers
         print(f"[MasterClub] Scraping error: {e}")
 
     return results
@@ -320,7 +320,7 @@ async def fetch_laptopremont_html(client: httpx.AsyncClient, query: str) -> str 
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
             
-            # Pass a realistic User-Agent to pass SuperJS checks smoothly
+            # User-Agent to pass SuperJS checks 
             context = await browser.new_context(
                 user_agent=(
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -334,7 +334,7 @@ async def fetch_laptopremont_html(client: httpx.AsyncClient, query: str) -> str 
             # Navigate and wait for DOM load
             await page.goto(url, wait_until="domcontentloaded", timeout=20000)
             
-            # Wait specifically for the search result table/links to appear in the DOM
+            # Wait for search result table/links to appear in DOM
             try:
                 await page.wait_for_selector(
                     "table, .productListing-data, a[href*='products_id='], a[href*='-p-']", 
@@ -368,7 +368,7 @@ async def fetch_masterclub_html(client: httpx.AsyncClient, query: str) -> str | 
     home_url = "https://masterclub.info/"
 
     try:
-        # Стъпка 1: Зареждане на началната страница за сесийна бисквитка и хедъри
+        # Loading the first page for session cookie
         net_log.info("[MasterClub] Fetching homepage for fresh session & security_hash...")
         home_resp = await client.get(home_url, headers=MASTERCLUB_HEADERS, timeout=8.0)
 
@@ -376,21 +376,21 @@ async def fetch_masterclub_html(client: httpx.AsyncClient, query: str) -> str | 
             net_log.warning(f"[MasterClub] Homepage returned status {home_resp.status_code}")
             return None
 
-        # Стъпка 2: Извличане на security_hash от HTML / JS
+        #security_hash from HTML
         sec_hash = ""
         soup = BeautifulSoup(home_resp.text, "html.parser")
 
-        # Проверка за скрити input полета
+        #checking hidden input elemnts
         hash_input = soup.find("input", {"name": "security_hash"})
         if hash_input and hash_input.get("value"):
             sec_hash = str(hash_input.get("value"))
         else:
-            # Fallback regex за JS променливи
+            # Fallback regex for JS vars
             match = re.search(r'security_hash[^\w]*([a-f0-9]{32})', home_resp.text, re.I)
             if match:
                 sec_hash = match.group(1)
 
-        # Стъпка 3: Сглобяване на търсещия URL адрес
+        #creating the searching URL 
         encoded_query = quote_plus(query)
         search_url = (
             f"https://masterclub.info/?match=all&subcats=Y&pcode_from_q=Y"
@@ -400,10 +400,10 @@ async def fetch_masterclub_html(client: httpx.AsyncClient, query: str) -> str | 
         if sec_hash:
             search_url += f"&security_hash={sec_hash}"
 
-        # Добавяме Referer хедър, за да симулираме пренасочване от началната страница
+        # Adding Referrer header for faking home page redrection
         search_headers = {**MASTERCLUB_HEADERS, "Referer": home_url}
 
-        # Стъпка 4: Изпълнение на търсенето
+        # Executing search
         search_resp = await client.get(search_url, headers=search_headers, timeout=8.0)
 
         if search_resp.status_code == 200 and search_resp.text:
@@ -415,6 +415,7 @@ async def fetch_masterclub_html(client: httpx.AsyncClient, query: str) -> str | 
     except Exception as e:
         net_log.error(f"[MasterClub] Fetch failed: {type(e).__name__} -> {str(e)}")
         return None
+
 # Logging
 logger.remove() 
 logger.add(
@@ -573,7 +574,7 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
         raw_title = link.get("title") or ""
         link_text = link.get_text(strip=True)
 
-        # 1. Clean Title Extraction
+        # Clean Title Extraction
         if raw_title.strip() and raw_title.strip().lower() not in IGNORED_TITLES:
             clean_title = raw_title.strip()
         elif link_text and link_text.strip().lower() not in IGNORED_TITLES:
@@ -590,7 +591,7 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
 
         haystack = clean_title.lower()
 
-        # 2. Search Term Filter
+        # Search Term Filter
         if site["name"] != "LaptopRemont" and not all(term in haystack for term in search_terms): 
             continue
 
@@ -601,7 +602,7 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
 
         detected_price = ""
 
-        # 3. Price Extraction
+        # Price Extraction
         price_tags = site_price_tags.get(site["name"], [".price", ".price-new"])
         current_parent = link
 
@@ -630,7 +631,7 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
                 detected_price = found_price_text
                 break
 
-        # 4. Price Cleanup / Formatting (e.g. 1.50€2.93лв. -> 2.93 лв. / 1.50 €)
+        # Formatting 1.50€2.93лв. -> 2.93 лв. / 1.50 €
         if detected_price:
             # Fix smashed EUR and BGN values
             smashed_match = re.search(r'([\d.,]+)\s*€\s*([\d.,]+)\s*лв\.?', detected_price, re.IGNORECASE)
@@ -638,7 +639,7 @@ def parse_site(html: str, site: dict, search_terms: list[str]) -> list[dict]:
                 eur, bgn = smashed_match.group(1), smashed_match.group(2)
                 detected_price = f"{bgn} лв. / {eur} €"
 
-        # 5. Append structured item
+        # Append items
         items.append({
             "title": clean_title,
             "url": full_url,
@@ -689,14 +690,14 @@ async def fetch_with_retry(client: httpx.AsyncClient, url: str, site_name: str) 
             net_log.info(f"[{site_name}] GET -> Status 200 OK ({elapsed_ms}ms)")
             return resp
 
-            # Catch HTTP code errors (403, 404, 500) - these have a response attached
+            # Catch errors 403, 404, 500
         except httpx.HTTPStatusError as e:
             status = e.response.status_code
             net_log.warning(f"[{site_name}] HTTP {status} on attempt {attempt}/{RETRIES + 1}. Retrying in {RETRY_DELAY}s...")
             if attempt <= RETRIES:
                 await asyncio.sleep(RETRY_DELAY)
 
-            # Catch connection/timeout errors - these DO NOT have a response attached
+            # Catch connection timeout errors
         except httpx.RequestError as e:
             net_log.warning(f"[{site_name}] Connection error ({type(e).__name__}) on attempt {attempt}/{RETRIES + 1}. Retrying...")
             if attempt <= RETRIES:
