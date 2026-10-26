@@ -9,14 +9,14 @@ cd price-checker
 
 ## Starting (localy) 
 ```sh
-    python -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
-    uvicorn app:app --host 0.0.0.0 --port 8090
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn app:app --host 0.0.0.0 --port 8090
 ```
 
 ## Starting (docker):
 ```sh
-    docker build -t aks-price-checker .
-    docker run -d -p 8090:8000 --name price-checker aks-price-checker
+docker build -t aks-price-checker .
+docker run -d -p 8090:8000 --name price-checker aks-price-checker
 ```
